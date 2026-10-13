@@ -1,0 +1,72 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: mysirati_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - default
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: mysirati_backend
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      SESSION_SECRET: ${SESSION_SECRET}
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      PUBLIC_BASE_URL: ${PUBLIC_BASE_URL}
+      PORT: "3000"
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "node -e 'fetch(\"http://localhost:3000/api/health\").then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))'"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    networks:
+      - default
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: mysirati_frontend
+    restart: unless-stopped
+    # Optional port mapping for local testing only (uncomment if testing locally without reverse proxy tunnel):
+    # ports:
+    #   - "${FRONTEND_PORT:-8090}:80"
+    # Note: On the production server, host ports 80, 3000, 5050, 5432, 5678, 5679, 8080 and 9443 are already in use.
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - default
+      - tunnel_net
+
+volumes:
+  postgres_data:
+    name: mysirati_postgres_data
+
+networks:
+  default:
+    name: mysirati_default
+  tunnel_net:
+    external: true
+    name: tunnel_net

@@ -1,0 +1,72 @@
+import { X } from 'lucide-react';
+import { useEffect } from 'react';
+import type { FC, ReactNode } from 'react';
+
+interface ModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  title: string;
+  description?: string;
+  children: ReactNode;
+  maxWidth?: 'sm' | 'md' | 'lg' | 'xl';
+}
+
+const MAX_WIDTHS = {
+  sm: 'max-w-sm',
+  md: 'max-w-md',
+  lg: 'max-w-lg',
+  xl: 'max-w-xl',
+};
+
+export const Modal: FC<ModalProps> = ({
+  isOpen,
+  onClose,
+  title,
+  description,
+  children,
+  maxWidth = 'md',
+}) => {
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
+
+  if (!isOpen) return null;
+
+  return (
+    <div
+      role="dialog"
+      aria-modal="true"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+    >
+      <div
+        className="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
+        onClick={onClose}
+        aria-hidden="true"
+      />
+      <div
+        className={`relative w-full ${MAX_WIDTHS[maxWidth]} rounded-2xl border border-border bg-surface-raised p-6 shadow-xl transition-all`}
+      >
+        <div className="mb-4 flex items-start justify-between">
+          <div>
+            <h3 className="text-lg font-semibold text-text">{title}</h3>
+            {description && <p className="mt-1 text-sm text-text-muted">{description}</p>}
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            className="rounded-lg p-1.5 text-text-muted hover:bg-surface hover:text-text transition-colors"
+            aria-label="Close dialog"
+          >
+            <X className="h-5 w-5" />
+          </button>
+        </div>
+        <div>{children}</div>
+      </div>
+    </div>
+  );
+};
