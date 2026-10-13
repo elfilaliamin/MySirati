@@ -2,7 +2,6 @@ import { Plus, ShieldAlert, Sparkles } from 'lucide-react';
 import type { FC } from 'react';
 import { Link } from 'react-router-dom';
 
-import { LanguageSwitcher } from '../components/common/LanguageSwitcher';
 import { Badge, Button, ThemeToggle } from '../components/ui';
 import { useAuth } from '../features/auth/auth.context';
 import { useI18n } from '../i18n/i18n.context';
@@ -37,7 +36,6 @@ export const HeaderActions: FC = () => {
         </Link>
       )}
 
-      <LanguageSwitcher />
       <ThemeToggle />
 
       {!user && (

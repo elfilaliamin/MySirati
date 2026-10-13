@@ -34,21 +34,27 @@ const Controls: FC<ControlsProps> = ({
     <button
       type="button"
       onClick={() => onModeChange(false)}
-      className={`px-2 py-0.5 rounded-md ${!isCustom ? 'bg-primary-soft text-primary font-medium' : 'text-text-muted'}`}
+      className={`px-2 py-0.5 rounded-md transition-colors ${
+        !isCustom ? 'bg-primary-soft text-primary font-medium' : 'text-text-muted hover:text-text'
+      }`}
     >
       All ({itemsCount})
     </button>
-    <button
-      type="button"
-      onClick={() => onModeChange(true)}
-      className={`px-2 py-0.5 rounded-md ${isCustom ? 'bg-primary-soft text-primary font-medium' : 'text-text-muted'}`}
-    >
-      Specific ({selectedCount}/{itemsCount})
-    </button>
+    {itemsCount > 1 && (
+      <button
+        type="button"
+        onClick={() => onModeChange(true)}
+        className={`px-2 py-0.5 rounded-md transition-colors ${
+          isCustom ? 'bg-primary-soft text-primary font-medium' : 'text-text-muted hover:text-text'
+        }`}
+      >
+        Specific ({selectedCount}/{itemsCount})
+      </button>
+    )}
     <button
       type="button"
       onClick={onToggleExpand}
-      className="text-text-muted p-1"
+      className="text-text-muted hover:text-text p-1 transition-colors"
       aria-label="Toggle items"
     >
       {isExpanded ? <ChevronUp className="h-3.5 w-3.5" /> : <ChevronDown className="h-3.5 w-3.5" />}
@@ -65,17 +71,35 @@ export const GranularSectionPicker: FC<GranularSectionPickerProps> = ({
   onChangeSelectedIds,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const isCustom = selectedIds.length > 0 && selectedIds.length < items.length;
+  const isAllSelected = selectedIds.length === 0 || selectedIds.length === items.length;
+  const isCustom = !isAllSelected && selectedIds.length > 0;
+  const selectedCount = isAllSelected ? items.length : selectedIds.length;
 
   const toggleItem = (id: string) => {
-    onChangeSelectedIds(
-      selectedIds.includes(id) ? selectedIds.filter((it) => it !== id) : [...selectedIds, id]
-    );
+    if (isAllSelected) {
+      // Transition from All mode to Specific: keep all other items selected except the toggled one
+      const remaining = items.map((it) => it.id).filter((itemId) => itemId !== id);
+      onChangeSelectedIds(remaining);
+      return;
+    }
+
+    if (selectedIds.includes(id)) {
+      const next = selectedIds.filter((it) => it !== id);
+      onChangeSelectedIds(next);
+    } else {
+      const next = [...selectedIds, id];
+      // If all items are selected, reset to [] for canonical All mode
+      onChangeSelectedIds(next.length === items.length ? [] : next);
+    }
   };
 
   const handleMode = (custom: boolean) => {
-    setIsExpanded(custom);
-    onChangeSelectedIds(custom && selectedIds.length === 0 ? items.map((it) => it.id) : []);
+    setIsExpanded(true);
+    if (!custom) {
+      onChangeSelectedIds([]);
+    } else if (isAllSelected) {
+      onChangeSelectedIds(items.map((it) => it.id));
+    }
   };
 
   return (
@@ -95,7 +119,7 @@ export const GranularSectionPicker: FC<GranularSectionPickerProps> = ({
         {isEnabled && items.length > 0 && (
           <Controls
             itemsCount={items.length}
-            selectedCount={selectedIds.length}
+            selectedCount={selectedCount}
             isCustom={isCustom}
             isExpanded={isExpanded}
             onModeChange={handleMode}

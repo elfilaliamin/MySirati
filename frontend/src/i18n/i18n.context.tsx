@@ -1,12 +1,9 @@
 import type { FC, ReactNode } from 'react';
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect } from 'react';
 
 import type { SupportedLocale, TranslationDictionary } from './i18n.types';
-import { ar } from './locales/ar';
 import { en } from './locales/en';
-import { fr } from './locales/fr';
 
-const DICTIONARIES: Record<SupportedLocale, TranslationDictionary> = { en, fr, ar };
 const LOCALE_STORAGE_KEY = 'mysirati_locale';
 
 interface I18nContextValue {
@@ -19,26 +16,17 @@ interface I18nContextValue {
 const I18nContext = createContext<I18nContextValue | null>(null);
 
 export const I18nProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const [locale, setLocaleState] = useState<SupportedLocale>(() => {
-    const saved = localStorage.getItem(LOCALE_STORAGE_KEY);
-    return saved === 'fr' || saved === 'ar' || saved === 'en' ? saved : 'en';
-  });
-
-  const setLocale = (newLocale: SupportedLocale) => {
-    setLocaleState(newLocale);
-    localStorage.setItem(LOCALE_STORAGE_KEY, newLocale);
-  };
-
   useEffect(() => {
-    document.documentElement.lang = locale;
-    document.documentElement.dir = locale === 'ar' ? 'rtl' : 'ltr';
-  }, [locale]);
+    localStorage.removeItem(LOCALE_STORAGE_KEY);
+    document.documentElement.lang = 'en';
+    document.documentElement.dir = 'ltr';
+  }, []);
 
   const value: I18nContextValue = {
-    locale,
-    setLocale,
-    t: DICTIONARIES[locale],
-    isRtl: locale === 'ar',
+    locale: 'en',
+    setLocale: () => {},
+    t: en,
+    isRtl: false,
   };
 
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
