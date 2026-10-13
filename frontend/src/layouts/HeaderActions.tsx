@@ -13,10 +13,10 @@ export const HeaderActions: FC = () => {
   const isHomePage = location.pathname === '/';
 
   return (
-    <div className="flex items-center gap-2 sm:gap-3">
+    <div className="flex items-center gap-2 sm:gap-3 shrink-0">
       {user && isHomePage && (
         <Link to="/dashboard">
-          <Button size="sm">
+          <Button size="sm" className="whitespace-nowrap">
             {t.nav.dashboard}
           </Button>
         </Link>
@@ -24,24 +24,24 @@ export const HeaderActions: FC = () => {
 
       {user?.role === 'admin' && (
         <Link to="/admin">
-          <Badge variant="warning" className="cursor-pointer hover:opacity-80">
+          <Badge variant="warning" className="cursor-pointer hover:opacity-80 shrink-0">
             <ShieldAlert className="h-3 w-3" />
-            <span>Admin</span>
+            <span className="hidden sm:inline">Admin</span>
           </Badge>
         </Link>
       )}
 
-      <ThemeToggle />
+      <ThemeToggle variant="icon" />
 
       {!user && (
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
           <Link to="/login">
-            <Button variant="ghost" size="sm">
+            <Button variant="ghost" size="sm" className="whitespace-nowrap">
               {t.nav.signIn}
             </Button>
           </Link>
-          <Link to="/register">
-            <Button size="sm">
+          <Link to="/register" className="hidden sm:inline-flex">
+            <Button size="sm" className="whitespace-nowrap">
               {t.nav.getStarted}
             </Button>
           </Link>

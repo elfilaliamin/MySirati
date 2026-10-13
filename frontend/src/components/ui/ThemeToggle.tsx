@@ -10,8 +10,40 @@ const THEME_OPTIONS: Array<{ mode: ThemeMode; label: string; icon: typeof Sun }>
   { mode: 'dark', label: 'Dark theme', icon: Moon },
 ];
 
-export const ThemeToggle: FC<{ className?: string }> = ({ className = '' }) => {
+interface ThemeToggleProps {
+  className?: string;
+  variant?: 'segmented' | 'icon';
+}
+
+export const ThemeToggle: FC<ThemeToggleProps> = ({
+  className = '',
+  variant = 'segmented',
+}) => {
   const { theme, setTheme } = useTheme();
+
+  if (variant === 'icon') {
+    const isDark =
+      theme === 'dark' ||
+      (theme === 'system' &&
+        typeof window !== 'undefined' &&
+        window.matchMedia('(prefers-color-scheme: dark)').matches);
+
+    const toggleTheme = () => {
+      setTheme(isDark ? 'light' : 'dark');
+    };
+
+    return (
+      <button
+        type="button"
+        onClick={toggleTheme}
+        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-border bg-surface text-text-muted hover:bg-surface-raised hover:text-text transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${className}`}
+        aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+        title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+      >
+        {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+      </button>
+    );
+  }
 
   return (
     <div
