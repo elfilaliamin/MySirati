@@ -48,7 +48,8 @@ export async function register(input: RegisterInput): Promise<AuthSuccessResult>
   const newUser = await createUser(normalizedEmail, passwordHash);
 
   const defaultName = normalizedEmail.split('@')[0] ?? 'User';
-  await createDefaultProfile(newUser.id, defaultName);
+  const profileName = input.fullName?.trim() || defaultName;
+  await createDefaultProfile(newUser.id, profileName);
 
   const { token, maxAge } = generateSessionToken(newUser.id, newUser.role);
   return {
