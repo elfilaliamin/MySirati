@@ -18,7 +18,7 @@ export const StatsGrid: FC<StatsGridProps> = ({
   skillCount,
   langCount,
 }) => (
-  <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
     <StatCard label="Experiences" count={expCount} icon={<Briefcase className="h-5 w-5" />} to="/experiences" />
     <StatCard label="Education" count={eduCount} icon={<BookOpen className="h-5 w-5" />} to="/education" />
     <StatCard label="Projects" count={projCount} icon={<FolderGit2 className="h-5 w-5" />} to="/projects" />

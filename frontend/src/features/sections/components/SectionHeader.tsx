@@ -18,17 +18,17 @@ export const SectionHeader: FC<SectionHeaderProps> = ({
   actionLabel,
   onAction,
 }) => (
-  <div className="flex items-center justify-between">
+  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
     <div className="flex items-center gap-3">
-      <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary text-white shadow-sm">
+      <div className="flex h-10 w-10 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-2xl bg-primary text-white shadow-sm">
         {icon}
       </div>
       <div>
-        <h1 className="text-2xl font-bold tracking-tight text-text">{title}</h1>
+        <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-text">{title}</h1>
         <p className="text-xs sm:text-sm text-text-muted">{subtitle}</p>
       </div>
     </div>
-    <Button onClick={onAction} leftIcon={<Plus className="h-4 w-4" />}>
+    <Button onClick={onAction} className="w-full sm:w-auto" leftIcon={<Plus className="h-4 w-4" />}>
       {actionLabel}
     </Button>
   </div>

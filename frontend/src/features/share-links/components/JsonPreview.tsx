@@ -20,7 +20,7 @@ export const JsonPreview: FC<JsonPreviewProps> = ({ data, isLoading = false }) =
   };
 
   return (
-    <div className="flex flex-col rounded-2xl border border-border bg-surface overflow-hidden h-full min-h-[350px]">
+    <div className="flex flex-col rounded-2xl border border-border bg-surface overflow-hidden h-full min-h-[280px] sm:min-h-[350px] max-h-[420px] lg:max-h-[600px]">
       <div className="flex items-center justify-between border-b border-border bg-surface-raised px-4 py-2.5">
         <div className="flex items-center gap-2 text-xs font-semibold text-text">
           <FileJson className="h-4 w-4 text-primary" />

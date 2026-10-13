@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 
 import { AppHeader } from './AppHeader';
@@ -48,6 +48,10 @@ export const AppLayout: FC = () => {
   const isHomePage = location.pathname === '/';
   const showSidebar = Boolean(user && !isHomePage);
 
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location.pathname]);
+
   const toggleMobileMenu = () => setIsMobileMenuOpen((prev) => !prev);
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
@@ -76,7 +80,7 @@ export const AppLayout: FC = () => {
           id="main-content"
           role="main"
           tabIndex={-1}
-          className={`flex-1 min-w-0 px-4 py-8 sm:px-6 lg:px-8 focus:outline-none ${
+          className={`flex-1 min-w-0 px-3.5 py-5 sm:px-6 sm:py-8 lg:px-8 focus:outline-none ${
             showSidebar ? 'w-full' : 'mx-auto w-full max-w-7xl'
           }`}
         >

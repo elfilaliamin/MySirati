@@ -19,7 +19,7 @@ const buildInputClass = (hasError: boolean, hasLeft: boolean, hasRight: boolean,
   const border = hasError ? 'border-danger' : 'border-border';
   const padLeft = hasLeft ? 'pl-10' : '';
   const padRight = hasRight ? 'pr-10' : '';
-  return `w-full rounded-xl border bg-surface-raised px-3.5 py-2.5 text-sm text-text placeholder:text-text-muted transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-50 ${border} ${padLeft} ${padRight} ${custom}`;
+  return `w-full rounded-xl border bg-surface-raised px-3.5 py-2.5 text-base sm:text-sm text-text placeholder:text-text-muted transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-50 ${border} ${padLeft} ${padRight} ${custom}`;
 };
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(

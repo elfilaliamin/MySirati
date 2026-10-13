@@ -11,7 +11,7 @@ interface TableProps {
 
 export const AuditLogTable: FC<TableProps> = ({ logs, onInspect }) => (
   <div className="overflow-x-auto">
-    <table className="w-full text-left text-xs">
+    <table className="w-full text-left text-xs min-w-[650px]">
       <thead>
         <tr className="border-b border-border bg-surface-muted text-text-muted font-semibold uppercase tracking-wider">
           <th className="py-2.5 px-3">Timestamp</th>

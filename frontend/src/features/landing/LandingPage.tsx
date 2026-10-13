@@ -18,33 +18,33 @@ export const LandingPage: FC = () => {
         <span>{t.hero.badge}</span>
       </div>
 
-      <h1 className="max-w-4xl text-4xl font-extrabold tracking-tight sm:text-6xl text-text">
+      <h1 className="max-w-4xl text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-text leading-tight sm:leading-tight">
         {t.hero.titlePre}
         <span className="text-primary underline decoration-primary/30">
           {t.hero.titleHighlight}
         </span>.
       </h1>
 
-      <p className="mt-6 max-w-2xl text-base sm:text-lg text-text-muted">
+      <p className="mt-4 sm:mt-6 max-w-2xl text-sm sm:text-lg text-text-muted">
         {t.hero.subtitle}
       </p>
 
-      <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+      <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 w-full sm:w-auto">
         {user ? (
-          <Link to="/dashboard">
-            <Button size="lg" rightIcon={<ArrowRight className="h-5 w-5" />}>
+          <Link to="/dashboard" className="w-full sm:w-auto">
+            <Button size="lg" className="w-full sm:w-auto" rightIcon={<ArrowRight className="h-5 w-5" />}>
               {t.nav.dashboard}
             </Button>
           </Link>
         ) : (
           <>
-            <Link to="/register">
-              <Button size="lg" rightIcon={<ArrowRight className="h-5 w-5" />}>
+            <Link to="/register" className="w-full sm:w-auto">
+              <Button size="lg" className="w-full sm:w-auto" rightIcon={<ArrowRight className="h-5 w-5" />}>
                 {t.hero.ctaPrimary}
               </Button>
             </Link>
-            <Link to="/login">
-              <Button variant="secondary" size="lg">
+            <Link to="/login" className="w-full sm:w-auto">
+              <Button variant="secondary" size="lg" className="w-full sm:w-auto">
                 {t.nav.signIn}
               </Button>
             </Link>

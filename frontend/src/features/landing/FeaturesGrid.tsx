@@ -27,7 +27,7 @@ const FEATURES = [
 ];
 
 export const FeaturesGrid: FC = () => (
-  <div className="mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full text-left">
+  <div className="mt-12 sm:mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 w-full text-left">
     {FEATURES.map((feat) => {
       const Icon = feat.icon;
       return (

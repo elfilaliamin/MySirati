@@ -1,4 +1,4 @@
-import { LogOut, ShieldAlert, Sparkles } from 'lucide-react';
+import { LogOut, ShieldAlert, Sparkles, X } from 'lucide-react';
 import type { FC } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 
@@ -21,9 +21,9 @@ const NAV_KEYS: Record<string, keyof TranslationDictionary['nav']> = {
   '/settings': 'settings',
 };
 
-const SidebarBrand: FC = () => (
-  <div className="flex items-center gap-3 px-2 pb-5 pt-1">
-    <Link to="/dashboard" className="flex items-center gap-2.5 font-bold text-text">
+const SidebarBrand: FC<{ onItemClick?: () => void }> = ({ onItemClick }) => (
+  <div className="flex items-center justify-between px-2 pb-5 pt-1">
+    <Link to="/dashboard" onClick={onItemClick} className="flex items-center gap-2.5 font-bold text-text">
       <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-white shadow-md shadow-primary/20">
         <Sparkles className="h-5 w-5" />
       </div>
@@ -36,6 +36,16 @@ const SidebarBrand: FC = () => (
         </span>
       </div>
     </Link>
+    {onItemClick && (
+      <button
+        type="button"
+        onClick={onItemClick}
+        className="rounded-xl p-2 text-text-muted hover:bg-surface hover:text-text lg:hidden"
+        aria-label="Close menu"
+      >
+        <X className="h-5 w-5" />
+      </button>
+    )}
   </div>
 );
 
@@ -116,7 +126,7 @@ export const AppSidebar: FC<{ onItemClick?: () => void; className?: string }> = 
     <aside
       className={`flex flex-col w-64 shrink-0 p-4 border-e border-border bg-surface-raised overflow-y-auto ${className}`}
     >
-      <SidebarBrand />
+      <SidebarBrand onItemClick={onItemClick} />
 
       <div className="flex flex-col gap-1 flex-1 py-1">
         {allLinks.map((link) => (

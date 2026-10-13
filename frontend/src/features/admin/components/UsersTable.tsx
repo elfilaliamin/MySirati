@@ -11,7 +11,7 @@ interface UsersTableProps {
 
 export const UsersTable: FC<UsersTableProps> = ({ users }) => (
   <div className="overflow-x-auto">
-    <table className="w-full text-left text-xs">
+    <table className="w-full text-left text-xs min-w-[600px]">
       <thead>
         <tr className="border-b border-border bg-surface-muted text-text-muted font-semibold uppercase tracking-wider">
           <th className="py-2.5 px-3">User Email</th>

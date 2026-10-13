@@ -3,7 +3,7 @@ import type { FC, HTMLAttributes } from 'react';
 export const Card: FC<HTMLAttributes<HTMLDivElement>> = ({ className = '', children, ...props }) => (
   <div
     {...props}
-    className={`rounded-2xl border border-border bg-surface-raised p-6 shadow-sm transition-shadow ${className}`}
+    className={`rounded-2xl border border-border bg-surface-raised p-4 sm:p-6 shadow-sm transition-shadow ${className}`}
   >
     {children}
   </div>

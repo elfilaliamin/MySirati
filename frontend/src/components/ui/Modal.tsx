@@ -49,17 +49,17 @@ export const Modal: FC<ModalProps> = ({
         aria-hidden="true"
       />
       <div
-        className={`relative w-full ${MAX_WIDTHS[maxWidth]} rounded-2xl border border-border bg-surface-raised p-6 shadow-xl transition-all`}
+        className={`relative w-full ${MAX_WIDTHS[maxWidth]} max-h-[calc(100vh-2rem)] sm:max-h-[85vh] overflow-y-auto rounded-2xl border border-border bg-surface-raised p-4 sm:p-6 shadow-xl transition-all`}
       >
         <div className="mb-4 flex items-start justify-between">
           <div>
-            <h3 className="text-lg font-semibold text-text">{title}</h3>
-            {description && <p className="mt-1 text-sm text-text-muted">{description}</p>}
+            <h3 className="text-base sm:text-lg font-semibold text-text">{title}</h3>
+            {description && <p className="mt-1 text-xs sm:text-sm text-text-muted">{description}</p>}
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-lg p-1.5 text-text-muted hover:bg-surface hover:text-text transition-colors"
+            className="rounded-lg p-1.5 text-text-muted hover:bg-surface hover:text-text transition-colors shrink-0 ml-2"
             aria-label="Close dialog"
           >
             <X className="h-5 w-5" />
