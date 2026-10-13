@@ -7,17 +7,19 @@ import { useAuth } from '../features/auth/auth.context';
 interface HeaderBrandProps {
   isMobileMenuOpen?: boolean;
   toggleMobileMenu?: () => void;
+  showSidebar?: boolean;
 }
 
 export const HeaderBrand: FC<HeaderBrandProps> = ({
   isMobileMenuOpen = false,
   toggleMobileMenu,
+  showSidebar = true,
 }) => {
   const { user } = useAuth();
 
   return (
     <div className="flex items-center gap-3">
-      {user && toggleMobileMenu && (
+      {showSidebar && user && toggleMobileMenu && (
         <button
           type="button"
           onClick={toggleMobileMenu}
@@ -30,7 +32,7 @@ export const HeaderBrand: FC<HeaderBrandProps> = ({
 
       <Link
         to={user ? '/dashboard' : '/'}
-        className={`flex items-center gap-2.5 font-bold text-text ${user ? 'lg:hidden' : ''}`}
+        className={`flex items-center gap-2.5 font-bold text-text ${showSidebar && user ? 'lg:hidden' : ''}`}
       >
         <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-white shadow-sm">
           <Sparkles className="h-5 w-5" />

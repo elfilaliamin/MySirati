@@ -27,10 +27,7 @@ export const NAV_GROUPS: readonly NavGroup[] = [
   {
     groupKey: 'overview',
     defaultTitle: 'Overview',
-    links: [
-      { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-      { to: '/share', label: 'Share Links', icon: Link2 },
-    ],
+    links: [{ to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard }],
   },
   {
     groupKey: 'career',
@@ -47,7 +44,10 @@ export const NAV_GROUPS: readonly NavGroup[] = [
   {
     groupKey: 'account',
     defaultTitle: 'Account',
-    links: [{ to: '/settings', label: 'Settings', icon: Settings }],
+    links: [
+      { to: '/share', label: 'Share Links', icon: Link2 },
+      { to: '/settings', label: 'Settings', icon: Settings },
+    ],
   },
 ] as const;
 

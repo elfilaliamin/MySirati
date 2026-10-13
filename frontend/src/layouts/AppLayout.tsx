@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { useState } from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 
 import { AppHeader } from './AppHeader';
 import { AppSidebar } from './AppSidebar';
@@ -43,6 +43,10 @@ const AppFooter: FC = () => (
 export const AppLayout: FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { user } = useAuth();
+  const location = useLocation();
+
+  const isHomePage = location.pathname === '/';
+  const showSidebar = Boolean(user && !isHomePage);
 
   const toggleMobileMenu = () => setIsMobileMenuOpen((prev) => !prev);
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
@@ -51,13 +55,13 @@ export const AppLayout: FC = () => {
     <div className="flex min-h-screen bg-bg text-text">
       <SkipToContent />
 
-      {user && (
+      {showSidebar && (
         <div className="hidden lg:block sticky top-0 h-screen w-64 shrink-0">
           <AppSidebar className="h-full" />
         </div>
       )}
 
-      {user && (
+      {showSidebar && (
         <MobileSidebarDrawer isOpen={isMobileMenuOpen} onClose={closeMobileMenu} />
       )}
 
@@ -65,6 +69,7 @@ export const AppLayout: FC = () => {
         <AppHeader
           isMobileMenuOpen={isMobileMenuOpen}
           toggleMobileMenu={toggleMobileMenu}
+          showSidebar={showSidebar}
         />
 
         <main
@@ -72,7 +77,7 @@ export const AppLayout: FC = () => {
           role="main"
           tabIndex={-1}
           className={`flex-1 min-w-0 px-4 py-8 sm:px-6 lg:px-8 focus:outline-none ${
-            user ? 'w-full' : 'mx-auto w-full max-w-7xl'
+            showSidebar ? 'w-full' : 'mx-auto w-full max-w-7xl'
           }`}
         >
           <Outlet />
