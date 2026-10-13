@@ -1,4 +1,4 @@
-export type SupportedLocale = 'en' | 'fr' | 'ar';
+export type SupportedLocale = 'en';
 
 export interface TranslationDictionary {
   readonly nav: {
