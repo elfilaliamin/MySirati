@@ -48,23 +48,24 @@ export const AppLayout: FC = () => {
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
   return (
-    <div className="flex min-h-screen flex-col bg-bg text-text">
+    <div className="flex min-h-screen bg-bg text-text">
       <SkipToContent />
-      <AppHeader
-        isMobileMenuOpen={isMobileMenuOpen}
-        toggleMobileMenu={toggleMobileMenu}
-      />
+
+      {user && (
+        <div className="hidden lg:block sticky top-0 h-screen w-64 shrink-0">
+          <AppSidebar className="h-full" />
+        </div>
+      )}
 
       {user && (
         <MobileSidebarDrawer isOpen={isMobileMenuOpen} onClose={closeMobileMenu} />
       )}
 
-      <div className="flex flex-1 min-h-[calc(100vh-4rem)]">
-        {user && (
-          <div className="hidden lg:block sticky top-16 h-[calc(100vh-4rem)]">
-            <AppSidebar className="h-full" />
-          </div>
-        )}
+      <div className="flex flex-1 flex-col min-w-0 min-h-screen">
+        <AppHeader
+          isMobileMenuOpen={isMobileMenuOpen}
+          toggleMobileMenu={toggleMobileMenu}
+        />
 
         <main
           id="main-content"
@@ -76,9 +77,9 @@ export const AppLayout: FC = () => {
         >
           <Outlet />
         </main>
-      </div>
 
-      <AppFooter />
+        <AppFooter />
+      </div>
     </div>
   );
 };

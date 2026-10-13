@@ -9,7 +9,7 @@ interface AppHeaderProps {
 }
 
 export const AppHeader: FC<AppHeaderProps> = ({ isMobileMenuOpen, toggleMobileMenu }) => (
-  <header className="sticky top-0 z-40 w-full border-b border-border bg-surface-raised/80 backdrop-blur-md">
+  <header className="sticky top-0 z-40 w-full border-b border-border bg-surface-raised">
     <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
       <HeaderBrand
         isMobileMenuOpen={isMobileMenuOpen}
