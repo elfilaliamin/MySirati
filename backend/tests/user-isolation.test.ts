@@ -20,7 +20,7 @@ describe('TASK-1001: User Data Isolation & Cryptographic Session Integrity', () 
 
   it('rejects tampered session tokens', () => {
     const { token } = generateSessionToken('user-victim', 'user');
-    const [payload, signature] = token.split('.');
+    const [, signature] = token.split('.');
 
     // Tamper with payload by forging another user id
     const forgedPayload = Buffer.from(
