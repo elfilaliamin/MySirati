@@ -49,9 +49,9 @@ services:
       dockerfile: Dockerfile
     container_name: mysirati_frontend
     restart: unless-stopped
-    # Optional port mapping for local testing only (uncomment if testing locally without reverse proxy tunnel):
-    # ports:
-    #   - "${FRONTEND_PORT:-8090}:80"
+    # Port mapping enabled for direct access by IP and port (can be removed once the tunnel is used):
+    ports:
+      - "${FRONTEND_PORT:-8090}:80"
     # Note: On the production server, host ports 80, 3000, 5050, 5432, 5678, 5679, 8080 and 9443 are already in use.
     depends_on:
       backend:
