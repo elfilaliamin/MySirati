@@ -1,19 +1,39 @@
-import { Sparkles } from 'lucide-react';
+import { Menu, Sparkles, X } from 'lucide-react';
 import type { FC } from 'react';
 import { Link } from 'react-router-dom';
 
-import { NavItems } from './NavItems';
+import { useAuth } from '../features/auth/auth.context';
 
-export const HeaderBrand: FC = () => (
-  <div className="flex items-center gap-6">
-    <Link to="/dashboard" className="flex items-center gap-2.5 font-bold text-text">
-      <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-white shadow-sm">
-        <Sparkles className="h-5 w-5" />
-      </div>
-      <span className="text-base tracking-tight">MySirati</span>
-    </Link>
-    <nav className="hidden lg:flex items-center gap-1">
-      <NavItems />
-    </nav>
-  </div>
-);
+interface HeaderBrandProps {
+  isMobileMenuOpen?: boolean;
+  toggleMobileMenu?: () => void;
+}
+
+export const HeaderBrand: FC<HeaderBrandProps> = ({
+  isMobileMenuOpen = false,
+  toggleMobileMenu,
+}) => {
+  const { user } = useAuth();
+
+  return (
+    <div className="flex items-center gap-3">
+      {user && toggleMobileMenu && (
+        <button
+          type="button"
+          onClick={toggleMobileMenu}
+          className="lg:hidden rounded-xl p-2 text-text-muted hover:bg-surface hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+          aria-label="Toggle navigation menu"
+        >
+          {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        </button>
+      )}
+
+      <Link to="/" className="flex items-center gap-2.5 font-bold text-text">
+        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-white shadow-sm">
+          <Sparkles className="h-5 w-5" />
+        </div>
+        <span className="text-base tracking-tight font-extrabold">MySirati</span>
+      </Link>
+    </div>
+  );
+};

@@ -1,18 +1,50 @@
-import { LogOut } from 'lucide-react';
 import type { FC } from 'react';
 import { useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 
 import { AppHeader } from './AppHeader';
-import { NavItems } from './NavItems';
+import { AppSidebar } from './AppSidebar';
 import { SkipToContent } from '../components/common/SkipToContent';
-import { Button } from '../components/ui';
 import { useAuth } from '../features/auth/auth.context';
+
+const MobileSidebarDrawer: FC<{ isOpen: boolean; onClose: () => void }> = ({
+  isOpen,
+  onClose,
+}) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 lg:hidden">
+      <div
+        className="fixed inset-0 bg-black/50 backdrop-blur-xs transition-opacity"
+        onClick={onClose}
+        aria-hidden="true"
+      />
+      <div className="fixed inset-y-0 start-0 z-50 w-72 max-w-[85vw] bg-surface-raised shadow-2xl">
+        <AppSidebar onItemClick={onClose} className="w-full h-full" />
+      </div>
+    </div>
+  );
+};
+
+const AppFooter: FC = () => (
+  <footer className="mt-auto border-t border-border bg-surface-raised py-6 text-center text-xs text-text-muted">
+    <div className="mx-auto flex max-w-7xl flex-col sm:flex-row items-center justify-between px-4 sm:px-6 gap-2">
+      <p>© {new Date().getFullYear()} MySirati. AI-ready career profile platform.</p>
+      <div className="flex items-center gap-4">
+        <Link to="/privacy" className="hover:text-text hover:underline">
+          Privacy Policy & Moderation Disclosure
+        </Link>
+      </div>
+    </div>
+  </footer>
+);
 
 export const AppLayout: FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
 
+  const toggleMobileMenu = () => setIsMobileMenuOpen((prev) => !prev);
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
   return (
@@ -20,44 +52,33 @@ export const AppLayout: FC = () => {
       <SkipToContent />
       <AppHeader
         isMobileMenuOpen={isMobileMenuOpen}
-        toggleMobileMenu={() => setIsMobileMenuOpen((prev) => !prev)}
+        toggleMobileMenu={toggleMobileMenu}
       />
 
-      {isMobileMenuOpen && (
-        <div className="lg:hidden border-b border-border bg-surface-raised px-4 py-4 shadow-md">
-          <nav className="flex flex-col gap-1">
-            <NavItems onItemClick={closeMobileMenu} isMobile />
-            {user && (
-              <div className="mt-3 pt-3 border-t border-border flex items-center justify-between">
-                <span className="text-xs text-text-muted">{user.email}</span>
-                <Button variant="outline" size="sm" onClick={logout} leftIcon={<LogOut className="h-4 w-4" />}>
-                  Sign out
-                </Button>
-              </div>
-            )}
-          </nav>
-        </div>
+      {user && (
+        <MobileSidebarDrawer isOpen={isMobileMenuOpen} onClose={closeMobileMenu} />
       )}
 
-      <main
-        id="main-content"
-        role="main"
-        tabIndex={-1}
-        className="mx-auto w-full max-w-7xl flex-1 px-4 py-8 sm:px-6 focus:outline-none"
-      >
-        <Outlet />
-      </main>
-
-      <footer className="mt-auto border-t border-border bg-surface-raised py-6 text-center text-xs text-text-muted">
-        <div className="mx-auto flex max-w-7xl flex-col sm:flex-row items-center justify-between px-4 sm:px-6 gap-2">
-          <p>© {new Date().getFullYear()} MySirati. AI-ready career profile platform.</p>
-          <div className="flex items-center gap-4">
-            <Link to="/privacy" className="hover:text-text hover:underline">
-              Privacy Policy & Moderation Disclosure
-            </Link>
+      <div className="flex flex-1 min-h-[calc(100vh-4rem)]">
+        {user && (
+          <div className="hidden lg:block sticky top-16 h-[calc(100vh-4rem)]">
+            <AppSidebar className="h-full" />
           </div>
-        </div>
-      </footer>
+        )}
+
+        <main
+          id="main-content"
+          role="main"
+          tabIndex={-1}
+          className={`flex-1 min-w-0 px-4 py-8 sm:px-6 lg:px-8 focus:outline-none ${
+            user ? 'w-full' : 'mx-auto w-full max-w-7xl'
+          }`}
+        >
+          <Outlet />
+        </main>
+      </div>
+
+      <AppFooter />
     </div>
   );
 };
