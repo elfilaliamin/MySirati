@@ -13,10 +13,10 @@ export const HTTP_STATUS = {
 
 export const DEFAULT_PORT = 3000;
 export const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
-export const RATE_LIMIT_MAX_REQUESTS = 100;
+export const RATE_LIMIT_MAX_REQUESTS = 1000;
 
-export const AUTH_RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
-export const AUTH_RATE_LIMIT_MAX_REQUESTS = 15;
+export const AUTH_RATE_LIMIT_WINDOW_MS = 5 * 60 * 1000;
+export const AUTH_RATE_LIMIT_MAX_REQUESTS = 100;
 
 export const PUBLIC_AI_RATE_LIMIT_WINDOW_MS = 60 * 1000;
 export const PUBLIC_AI_RATE_LIMIT_MAX_REQUESTS = 60;

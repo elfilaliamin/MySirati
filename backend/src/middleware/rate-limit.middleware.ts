@@ -13,8 +13,8 @@ import {
 
 export function extractClientIp(request: Request): string {
   const cfIp = request.headers['cf-connecting-ip'];
-  if (cfIp) {
-    return Array.isArray(cfIp) ? (cfIp[0] ?? '127.0.0.1') : cfIp;
+  if (typeof cfIp === 'string' && cfIp.trim() !== '') {
+    return cfIp.trim();
   }
 
   const fwd = request.headers['x-forwarded-for'];
@@ -22,6 +22,11 @@ export function extractClientIp(request: Request): string {
     const raw = Array.isArray(fwd) ? fwd[0] : fwd;
     const first = raw?.split(',')[0]?.trim();
     if (first) return first;
+  }
+
+  const realIp = request.headers['x-real-ip'];
+  if (typeof realIp === 'string' && realIp.trim() !== '') {
+    return realIp.trim();
   }
 
   return request.ip ?? '127.0.0.1';
@@ -49,6 +54,7 @@ export const authRateLimiter = rateLimit({
   max: AUTH_RATE_LIMIT_MAX_REQUESTS,
   standardHeaders: true,
   legacyHeaders: false,
+  skipSuccessfulRequests: true,
   keyGenerator: extractClientIp,
   handler: handleLimitReached,
 });
