@@ -28,6 +28,35 @@ const BORDER_CLASSES: Record<ToastType, string> = {
   info: 'border-primary/30 text-primary',
 };
 
+const ToastCard: FC<{ toast: ToastItem; onDismiss: (id: string) => void }> = ({
+  toast,
+  onDismiss,
+}) => {
+  const Icon = ICONS[toast.type];
+
+  return (
+    <div
+      role="alert"
+      className={`pointer-events-auto flex items-center justify-between gap-3 rounded-xl border bg-surface-raised p-3.5 sm:p-4 shadow-lg text-sm text-text transition-all w-full max-w-sm ${BORDER_CLASSES[toast.type]}`}
+    >
+      <div className="flex items-center gap-2.5 min-w-0">
+        <Icon className="h-5 w-5 shrink-0" />
+        <span className="text-text font-medium break-words text-xs sm:text-sm">
+          {toast.message}
+        </span>
+      </div>
+      <button
+        type="button"
+        onClick={() => onDismiss(toast.id)}
+        className="text-text-muted hover:text-text p-1 rounded-lg shrink-0"
+        aria-label="Dismiss toast"
+      >
+        <X className="h-4 w-4" />
+      </button>
+    </div>
+  );
+};
+
 export const ToastProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [toasts, setToasts] = useState<ToastItem[]>([]);
 
@@ -47,30 +76,10 @@ export const ToastProvider: FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <ToastContext.Provider value={{ showToast }}>
       {children}
-      <div className="fixed bottom-4 right-4 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none">
-        {toasts.map((toast) => {
-          const Icon = ICONS[toast.type];
-          return (
-            <div
-              key={toast.id}
-              role="alert"
-              className={`pointer-events-auto flex items-center justify-between gap-3 rounded-xl border bg-surface-raised p-4 shadow-lg text-sm text-text transition-all ${BORDER_CLASSES[toast.type]}`}
-            >
-              <div className="flex items-center gap-2.5">
-                <Icon className="h-5 w-5 shrink-0" />
-                <span className="text-text font-medium">{toast.message}</span>
-              </div>
-              <button
-                type="button"
-                onClick={() => removeToast(toast.id)}
-                className="text-text-muted hover:text-text p-1 rounded-lg"
-                aria-label="Dismiss toast"
-              >
-                <X className="h-4 w-4" />
-              </button>
-            </div>
-          );
-        })}
+      <div className="fixed bottom-4 inset-x-4 sm:inset-x-auto sm:right-4 z-50 flex flex-col items-center sm:items-end gap-2 max-w-sm mx-auto sm:mx-0 w-auto pointer-events-none">
+        {toasts.map((toast) => (
+          <ToastCard key={toast.id} toast={toast} onDismiss={removeToast} />
+        ))}
       </div>
     </ToastContext.Provider>
   );

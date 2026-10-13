@@ -31,7 +31,7 @@ export const HeaderBrand: FC<HeaderBrandProps> = ({
       )}
 
       <Link
-        to={user ? '/dashboard' : '/'}
+        to={user ? (user.role === 'admin' ? '/admin' : '/dashboard') : '/'}
         className={`flex items-center gap-2.5 font-bold text-text ${showSidebar && user ? 'lg:hidden' : ''}`}
       >
         <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-white shadow-sm">

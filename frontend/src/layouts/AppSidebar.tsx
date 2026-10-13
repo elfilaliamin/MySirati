@@ -21,33 +21,38 @@ const NAV_KEYS: Record<string, keyof TranslationDictionary['nav']> = {
   '/settings': 'settings',
 };
 
-const SidebarBrand: FC<{ onItemClick?: () => void }> = ({ onItemClick }) => (
-  <div className="flex items-center justify-between px-2 pb-5 pt-1">
-    <Link to="/dashboard" onClick={onItemClick} className="flex items-center gap-2.5 font-bold text-text">
-      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-white shadow-md shadow-primary/20">
-        <Sparkles className="h-5 w-5" />
-      </div>
-      <div className="flex flex-col">
-        <span className="text-base font-extrabold tracking-tight text-text leading-none">
-          MySirati
-        </span>
-        <span className="mt-1 inline-block w-fit rounded bg-amber-500/15 px-1.5 py-0.5 text-[9px] font-bold tracking-wide text-amber-600 dark:text-amber-400 uppercase leading-none">
-          AI Resume
-        </span>
-      </div>
-    </Link>
-    {onItemClick && (
-      <button
-        type="button"
-        onClick={onItemClick}
-        className="rounded-xl p-2 text-text-muted hover:bg-surface hover:text-text lg:hidden"
-        aria-label="Close menu"
-      >
-        <X className="h-5 w-5" />
-      </button>
-    )}
-  </div>
-);
+const SidebarBrand: FC<{ onItemClick?: () => void }> = ({ onItemClick }) => {
+  const { user } = useAuth();
+  const brandTarget = user?.role === 'admin' ? '/admin' : '/dashboard';
+
+  return (
+    <div className="flex items-center justify-between px-2 pb-5 pt-1">
+      <Link to={brandTarget} onClick={onItemClick} className="flex items-center gap-2.5 font-bold text-text">
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-white shadow-md shadow-primary/20">
+          <Sparkles className="h-5 w-5" />
+        </div>
+        <div className="flex flex-col">
+          <span className="text-base font-extrabold tracking-tight text-text leading-none">
+            MySirati
+          </span>
+          <span className="mt-1 inline-block w-fit rounded bg-amber-500/15 px-1.5 py-0.5 text-[9px] font-bold tracking-wide text-amber-600 dark:text-amber-400 uppercase leading-none">
+            {user?.role === 'admin' ? 'Admin Portal' : 'AI Resume'}
+          </span>
+        </div>
+      </Link>
+      {onItemClick && (
+        <button
+          type="button"
+          onClick={onItemClick}
+          className="rounded-xl p-2 text-text-muted hover:bg-surface hover:text-text lg:hidden"
+          aria-label="Close menu"
+        >
+          <X className="h-5 w-5" />
+        </button>
+      )}
+    </div>
+  );
+};
 
 const SidebarItem: FC<{ item: NavLinkItem; onItemClick?: () => void }> = ({
   item,
@@ -114,13 +119,26 @@ const SidebarUserFooter: FC<{ onItemClick?: () => void }> = ({ onItemClick }) =>
   );
 };
 
+const ADMIN_EXCLUDED_PATHS = new Set([
+  '/education',
+  '/experiences',
+  '/projects',
+  '/skills',
+  '/languages',
+  '/share',
+]);
+
 export const AppSidebar: FC<{ onItemClick?: () => void; className?: string }> = ({
   onItemClick,
   className = '',
 }) => {
   const { user } = useAuth();
   const { t } = useI18n();
-  const allLinks = NAV_GROUPS.flatMap((group) => group.links);
+  const rawLinks = NAV_GROUPS.flatMap((group) => group.links);
+  const allLinks =
+    user?.role === 'admin'
+      ? rawLinks.filter((link) => !ADMIN_EXCLUDED_PATHS.has(link.to))
+      : rawLinks;
 
   return (
     <aside

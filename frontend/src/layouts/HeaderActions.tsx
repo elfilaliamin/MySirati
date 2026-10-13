@@ -15,9 +15,9 @@ export const HeaderActions: FC = () => {
   return (
     <div className="flex items-center gap-2 sm:gap-3 shrink-0">
       {user && isHomePage && (
-        <Link to="/dashboard">
+        <Link to={user.role === 'admin' ? '/admin' : '/dashboard'}>
           <Button size="sm" className="whitespace-nowrap">
-            {t.nav.dashboard}
+            {user.role === 'admin' ? 'Admin Portal' : t.nav.dashboard}
           </Button>
         </Link>
       )}

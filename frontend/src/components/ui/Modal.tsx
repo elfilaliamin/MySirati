@@ -18,6 +18,27 @@ const MAX_WIDTHS = {
   xl: 'max-w-xl',
 };
 
+const ModalHeader: FC<{ title: string; description?: string; onClose: () => void }> = ({
+  title,
+  description,
+  onClose,
+}) => (
+  <div className="mb-4 flex items-start justify-between">
+    <div>
+      <h3 className="text-base sm:text-lg font-semibold text-text">{title}</h3>
+      {description && <p className="mt-1 text-xs sm:text-sm text-text-muted">{description}</p>}
+    </div>
+    <button
+      type="button"
+      onClick={onClose}
+      className="rounded-lg p-1.5 text-text-muted hover:bg-surface hover:text-text transition-colors shrink-0 ml-2"
+      aria-label="Close dialog"
+    >
+      <X className="h-5 w-5" />
+    </button>
+  </div>
+);
+
 export const Modal: FC<ModalProps> = ({
   isOpen,
   onClose,
@@ -28,11 +49,18 @@ export const Modal: FC<ModalProps> = ({
 }) => {
   useEffect(() => {
     if (!isOpen) return;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
     };
     document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      document.removeEventListener('keydown', handleKeyDown);
+    };
   }, [isOpen, onClose]);
 
   if (!isOpen) return null;
@@ -41,7 +69,7 @@ export const Modal: FC<ModalProps> = ({
     <div
       role="dialog"
       aria-modal="true"
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto"
     >
       <div
         className="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
@@ -49,23 +77,10 @@ export const Modal: FC<ModalProps> = ({
         aria-hidden="true"
       />
       <div
-        className={`relative w-full ${MAX_WIDTHS[maxWidth]} max-h-[calc(100vh-2rem)] sm:max-h-[85vh] overflow-y-auto rounded-2xl border border-border bg-surface-raised p-4 sm:p-6 shadow-xl transition-all`}
+        className={`relative w-full ${MAX_WIDTHS[maxWidth]} max-h-[calc(100vh-2rem)] sm:max-h-[85vh] overflow-y-auto overflow-x-hidden rounded-2xl border border-border bg-surface-raised p-4 sm:p-6 shadow-xl transition-all my-auto min-w-0`}
       >
-        <div className="mb-4 flex items-start justify-between">
-          <div>
-            <h3 className="text-base sm:text-lg font-semibold text-text">{title}</h3>
-            {description && <p className="mt-1 text-xs sm:text-sm text-text-muted">{description}</p>}
-          </div>
-          <button
-            type="button"
-            onClick={onClose}
-            className="rounded-lg p-1.5 text-text-muted hover:bg-surface hover:text-text transition-colors shrink-0 ml-2"
-            aria-label="Close dialog"
-          >
-            <X className="h-5 w-5" />
-          </button>
-        </div>
-        <div>{children}</div>
+        <ModalHeader title={title} description={description} onClose={onClose} />
+        <div className="min-w-0">{children}</div>
       </div>
     </div>
   );

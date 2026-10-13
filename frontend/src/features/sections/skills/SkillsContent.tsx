@@ -1,0 +1,70 @@
+import { Code2 } from 'lucide-react';
+import type { FC } from 'react';
+
+import { SkillFiltersBar } from './SkillFiltersBar';
+import { SkillsGrid } from './SkillsGrid';
+import type { useSkillFilters } from './useSkillFilters';
+import { EmptyState } from '../../../components/ui';
+import type { SkillItem } from '../sections.types';
+
+interface SkillsContentProps {
+  items: SkillItem[];
+  filter: ReturnType<typeof useSkillFilters>;
+  onMoveUp: (idx: number) => void;
+  onMoveDown: (idx: number) => void;
+  onEdit: (item: SkillItem) => void;
+  onDelete: (id: string) => void;
+  onAdd: () => void;
+}
+
+export const SkillsContent: FC<SkillsContentProps> = ({
+  items,
+  filter,
+  onMoveUp,
+  onMoveDown,
+  onEdit,
+  onDelete,
+  onAdd,
+}) => {
+  if (items.length === 0) {
+    return (
+      <EmptyState
+        icon={<Code2 className="h-6 w-6 text-primary" />}
+        title="No skills added yet"
+        description="List your core technical proficiencies, frameworks, and methodologies."
+        actionLabel="Add Skill"
+        onAction={onAdd}
+      />
+    );
+  }
+
+  return (
+    <div className="space-y-4">
+      <SkillFiltersBar
+        searchQuery={filter.searchQuery}
+        onSearchChange={filter.setSearchQuery}
+        selectedCategory={filter.selectedCategory}
+        onCategoryChange={filter.setSelectedCategory}
+        categories={filter.categories}
+        selectedLevel={filter.selectedLevel}
+        onLevelChange={filter.setSelectedLevel}
+        sortBy={filter.sortBy}
+        onSortChange={filter.setSortBy}
+        onReset={filter.resetFilters}
+        hasActiveFilters={filter.hasActiveFilters}
+        filteredCount={filter.filteredItems.length}
+        totalCount={items.length}
+      />
+      <SkillsGrid
+        filteredItems={filter.filteredItems}
+        allItems={items}
+        isManualOrderActive={!filter.hasActiveFilters}
+        onMoveUp={onMoveUp}
+        onMoveDown={onMoveDown}
+        onEdit={onEdit}
+        onDelete={onDelete}
+        onResetFilters={filter.resetFilters}
+      />
+    </div>
+  );
+};

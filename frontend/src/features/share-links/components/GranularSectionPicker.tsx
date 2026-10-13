@@ -62,6 +62,22 @@ const Controls: FC<ControlsProps> = ({
   </div>
 );
 
+const getNextToggled = (
+  allIds: string[],
+  selectedIds: string[],
+  isAllSelected: boolean,
+  id: string
+): string[] => {
+  if (isAllSelected) {
+    return allIds.filter((itemId) => itemId !== id);
+  }
+  if (selectedIds.includes(id)) {
+    return selectedIds.filter((it) => it !== id);
+  }
+  const next = [...selectedIds, id];
+  return next.length === allIds.length ? [] : next;
+};
+
 export const GranularSectionPicker: FC<GranularSectionPickerProps> = ({
   label,
   isEnabled,
@@ -76,30 +92,13 @@ export const GranularSectionPicker: FC<GranularSectionPickerProps> = ({
   const selectedCount = isAllSelected ? items.length : selectedIds.length;
 
   const toggleItem = (id: string) => {
-    if (isAllSelected) {
-      // Transition from All mode to Specific: keep all other items selected except the toggled one
-      const remaining = items.map((it) => it.id).filter((itemId) => itemId !== id);
-      onChangeSelectedIds(remaining);
-      return;
-    }
-
-    if (selectedIds.includes(id)) {
-      const next = selectedIds.filter((it) => it !== id);
-      onChangeSelectedIds(next);
-    } else {
-      const next = [...selectedIds, id];
-      // If all items are selected, reset to [] for canonical All mode
-      onChangeSelectedIds(next.length === items.length ? [] : next);
-    }
+    const allIds = items.map((it) => it.id);
+    onChangeSelectedIds(getNextToggled(allIds, selectedIds, isAllSelected, id));
   };
 
   const handleMode = (custom: boolean) => {
     setIsExpanded(true);
-    if (!custom) {
-      onChangeSelectedIds([]);
-    } else if (isAllSelected) {
-      onChangeSelectedIds(items.map((it) => it.id));
-    }
+    onChangeSelectedIds(!custom ? [] : isAllSelected ? items.map((it) => it.id) : selectedIds);
   };
 
   return (
@@ -115,7 +114,6 @@ export const GranularSectionPicker: FC<GranularSectionPickerProps> = ({
           />
           <span>{label} ({items.length})</span>
         </label>
-
         {isEnabled && items.length > 0 && (
           <Controls
             itemsCount={items.length}
@@ -127,7 +125,6 @@ export const GranularSectionPicker: FC<GranularSectionPickerProps> = ({
           />
         )}
       </div>
-
       {isEnabled && isExpanded && items.length > 0 && (
         <SectionItemsList items={items} selectedIds={selectedIds} onToggleItem={toggleItem} />
       )}

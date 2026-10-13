@@ -7,20 +7,17 @@ import { AppSidebar } from './AppSidebar';
 import { SkipToContent } from '../components/common/SkipToContent';
 import { useAuth } from '../features/auth/auth.context';
 
-const MobileSidebarDrawer: FC<{ isOpen: boolean; onClose: () => void }> = ({
-  isOpen,
-  onClose,
-}) => {
+const MobileSidebarDrawer: FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 lg:hidden">
+    <div className="fixed inset-0 z-50 lg:hidden overscroll-none">
       <div
         className="fixed inset-0 bg-black/50 backdrop-blur-xs transition-opacity"
         onClick={onClose}
         aria-hidden="true"
       />
-      <div className="fixed inset-y-0 start-0 z-50 w-72 max-w-[85vw] bg-surface-raised shadow-2xl">
+      <div className="fixed inset-y-0 start-0 z-50 w-72 max-w-[85vw] bg-surface-raised shadow-2xl overflow-y-auto overscroll-contain">
         <AppSidebar onItemClick={onClose} className="w-full h-full" />
       </div>
     </div>
@@ -52,30 +49,32 @@ export const AppLayout: FC = () => {
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
 
-  const toggleMobileMenu = () => setIsMobileMenuOpen((prev) => !prev);
-  const closeMobileMenu = () => setIsMobileMenuOpen(false);
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [isMobileMenuOpen]);
 
   return (
     <div className="flex min-h-screen bg-bg text-text">
       <SkipToContent />
-
       {showSidebar && (
         <div className="hidden lg:block sticky top-0 h-screen w-64 shrink-0">
           <AppSidebar className="h-full" />
         </div>
       )}
-
       {showSidebar && (
-        <MobileSidebarDrawer isOpen={isMobileMenuOpen} onClose={closeMobileMenu} />
+        <MobileSidebarDrawer isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
       )}
-
       <div className="flex flex-1 flex-col min-w-0 min-h-screen">
         <AppHeader
           isMobileMenuOpen={isMobileMenuOpen}
-          toggleMobileMenu={toggleMobileMenu}
+          toggleMobileMenu={() => setIsMobileMenuOpen((prev) => !prev)}
           showSidebar={showSidebar}
         />
-
         <main
           id="main-content"
           role="main"
@@ -86,7 +85,6 @@ export const AppLayout: FC = () => {
         >
           <Outlet />
         </main>
-
         <AppFooter />
       </div>
     </div>
