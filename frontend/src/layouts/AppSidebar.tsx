@@ -141,7 +141,7 @@ export const AppSidebar: FC<{ onItemClick?: () => void; className?: string }> = 
 
   return (
     <aside
-      className={`flex flex-col w-64 shrink-0 p-4 border-e border-border bg-surface-raised overflow-y-auto ${className}`}
+      className={`flex flex-col w-64 shrink-0 p-4 border-e border-border bg-surface-raised overflow-y-auto no-scrollbar ${className}`}
     >
       <SidebarBrand onItemClick={onItemClick} />
 

@@ -17,7 +17,7 @@ const MobileSidebarDrawer: FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
         onClick={onClose}
         aria-hidden="true"
       />
-      <div className="fixed inset-y-0 start-0 z-50 w-72 max-w-[85vw] bg-surface-raised shadow-2xl overflow-y-auto overscroll-contain">
+      <div className="fixed inset-y-0 start-0 z-50 w-72 max-w-[85vw] bg-surface-raised shadow-2xl overflow-y-auto overscroll-contain no-scrollbar">
         <AppSidebar onItemClick={onClose} className="w-full h-full" />
       </div>
     </div>
