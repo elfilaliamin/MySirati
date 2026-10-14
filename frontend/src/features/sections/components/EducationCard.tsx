@@ -129,6 +129,8 @@ export const EducationCard: FC<EducationCardProps> = ({
           onMoveDown={onMoveDown}
           onEdit={onEdit}
           onDelete={onDelete}
+          deleteTitle="Delete Education"
+          deleteDescription={`Are you sure you want to delete "${primaryTitle}"? This action cannot be undone.`}
         />
       </div>
     </Card>

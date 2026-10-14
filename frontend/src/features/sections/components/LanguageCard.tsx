@@ -37,6 +37,8 @@ export const LanguageCard: FC<LanguageCardProps> = ({
       onMoveDown={onMoveDown}
       onEdit={onEdit}
       onDelete={onDelete}
+      deleteTitle="Delete Language"
+      deleteDescription={`Are you sure you want to delete "${item.name}"? This action cannot be undone.`}
     />
   </Card>
 );

@@ -8,3 +8,4 @@ export * from './Select';
 export * from './ThemeToggle';
 export * from './ToastContext';
 export * from './MySiratiLogo';
+export * from './ConfirmModal';

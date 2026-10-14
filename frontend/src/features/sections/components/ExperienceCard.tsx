@@ -63,6 +63,8 @@ export const ExperienceCard: FC<ExperienceCardProps> = ({
         onMoveDown={onMoveDown}
         onEdit={onEdit}
         onDelete={onDelete}
+        deleteTitle="Delete Work Experience"
+        deleteDescription={`Are you sure you want to delete your experience at "${item.company}"? This action cannot be undone.`}
       />
     </div>
   </Card>

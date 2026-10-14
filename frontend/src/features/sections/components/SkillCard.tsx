@@ -38,6 +38,8 @@ export const SkillCard: FC<SkillCardProps> = ({
       onMoveDown={onMoveDown}
       onEdit={onEdit}
       onDelete={onDelete}
+      deleteTitle="Delete Skill"
+      deleteDescription={`Are you sure you want to delete "${item.name}"? This action cannot be undone.`}
     />
   </Card>
 );
