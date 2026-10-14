@@ -6,20 +6,12 @@ import type { SkillItem } from '../sections.types';
 
 interface SkillCardProps {
   item: SkillItem;
-  canMoveUp: boolean;
-  canMoveDown: boolean;
-  onMoveUp: () => void;
-  onMoveDown: () => void;
   onEdit: () => void;
   onDelete: () => void;
 }
 
 export const SkillCard: FC<SkillCardProps> = ({
   item,
-  canMoveUp,
-  canMoveDown,
-  onMoveUp,
-  onMoveDown,
   onEdit,
   onDelete,
 }) => (
@@ -32,10 +24,6 @@ export const SkillCard: FC<SkillCardProps> = ({
       </div>
     </div>
     <ItemActions
-      canMoveUp={canMoveUp}
-      canMoveDown={canMoveDown}
-      onMoveUp={onMoveUp}
-      onMoveDown={onMoveDown}
       onEdit={onEdit}
       onDelete={onDelete}
       deleteTitle="Delete Skill"

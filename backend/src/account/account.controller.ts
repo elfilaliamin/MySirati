@@ -1,7 +1,14 @@
 import type { Request, Response } from 'express';
 
-import { deleteAccountSchema } from './account.schema.js';
-import { deleteUserAccount, exportUserData } from './account.service.js';
+import {
+  deleteAccountSchema,
+  importAccountSchema,
+} from './account.schema.js';
+import {
+  deleteUserAccount,
+  exportUserData,
+  importUserData,
+} from './account.service.js';
 import { config } from '../config/env.config.js';
 import { HTTP_STATUS } from '../constants/http.constants.js';
 import { SESSION_COOKIE_NAME } from '../utils/session.util.js';
@@ -14,6 +21,18 @@ export async function handleExportAccount(
   const data = await exportUserData(userId);
 
   response.status(HTTP_STATUS.OK).json(data);
+}
+
+export async function handleImportAccount(
+  request: Request,
+  response: Response
+): Promise<void> {
+  const userId = request.user!.id;
+  const input = importAccountSchema.parse(request.body);
+
+  const counts = await importUserData(userId, input);
+
+  response.status(HTTP_STATUS.OK).json({ success: true, counts });
 }
 
 export async function handleDeleteAccount(

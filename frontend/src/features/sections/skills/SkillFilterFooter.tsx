@@ -22,11 +22,6 @@ export const SkillFilterFooter: FC<SkillFilterFooterProps> = ({
         Showing <strong className="text-text font-semibold">{filteredCount}</strong> of{' '}
         <strong className="text-text font-semibold">{totalCount}</strong> skills
       </span>
-      {hasActiveFilters && (
-        <span className="hidden sm:inline text-text-muted/80">
-          • Reordering paused while filtered
-        </span>
-      )}
     </div>
     {hasActiveFilters && (
       <Button

@@ -3,7 +3,7 @@ import type { FC } from 'react';
 
 import { ItemActions } from './ItemActions';
 import { ItemLinksList } from './ItemLinksList';
-import { Card } from '../../../components/ui';
+import { Badge, Card } from '../../../components/ui';
 import type { ProjectItem } from '../sections.types';
 
 interface ProjectCardProps {
@@ -18,8 +18,21 @@ interface ProjectCardProps {
 
 const formatDateRange = (item: ProjectItem) => {
   if (!item.startDate && !item.endDate) return null;
-  return `${item.startDate || 'Unknown'} — ${item.endDate || 'Present'}`;
+  return `${item.startDate || 'Start'} — ${item.endDate || 'Present'}`;
 };
+
+const ProjectHeader: FC<{ name: string; role?: string | null }> = ({ name, role }) => (
+  <div>
+    <div className="flex flex-wrap items-center gap-2 mb-2">
+      <Badge variant="primary" size="sm">
+        <FolderGit2 className="h-3 w-3" />
+        <span>Project</span>
+      </Badge>
+    </div>
+    <h3 className="text-base font-semibold text-text">{name}</h3>
+    {role && <p className="text-sm font-medium text-text-muted mt-0.5">{role}</p>}
+  </div>
+);
 
 export const ProjectCard: FC<ProjectCardProps> = ({
   item,
@@ -33,28 +46,20 @@ export const ProjectCard: FC<ProjectCardProps> = ({
   const dateStr = formatDateRange(item);
 
   return (
-    <Card className="hover:border-primary/30 transition-colors">
+    <Card className="hover:border-primary/30 transition-all shadow-sm hover:shadow-md">
       <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
-        <div className="space-y-1.5 flex-1 min-w-0">
-          <div>
-            <div className="flex items-center gap-2">
-              <FolderGit2 className="h-4 w-4 text-primary shrink-0" />
-              <h3 className="text-base font-semibold text-text">{item.name}</h3>
-            </div>
-            {item.role && (
-              <p className="text-xs sm:text-sm font-medium text-text-muted mt-0.5">
-                {item.role}
-              </p>
-            )}
-          </div>
+        <div className="space-y-2 flex-1 min-w-0">
+          <ProjectHeader name={item.name} role={item.role} />
           {dateStr && (
             <div className="flex items-center gap-1.5 text-xs text-text-muted">
-              <Calendar className="h-3.5 w-3.5" />
+              <Calendar className="h-3.5 w-3.5 text-text-muted/80" />
               <span>{dateStr}</span>
             </div>
           )}
           {item.description && (
-            <p className="text-xs sm:text-sm text-text-muted mt-2 whitespace-pre-wrap">{item.description}</p>
+            <p className="text-xs sm:text-sm text-text-muted mt-2 whitespace-pre-wrap leading-relaxed">
+              {item.description}
+            </p>
           )}
           <ItemLinksList links={item.links} />
         </div>
@@ -72,3 +77,4 @@ export const ProjectCard: FC<ProjectCardProps> = ({
     </Card>
   );
 };
+

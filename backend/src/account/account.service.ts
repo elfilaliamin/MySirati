@@ -4,7 +4,9 @@ import {
   deleteUserById,
   fetchFullCareerData,
   getUserWithPassword,
+  importFullCareerData,
 } from './account.repository.js';
+import type { ImportAccountInput } from './account.schema.js';
 import { HTTP_STATUS } from '../constants/http.constants.js';
 import { AppError } from '../utils/app-error.js';
 
@@ -50,3 +52,13 @@ export async function deleteUserAccount(
 
   await deleteUserById(userId);
 }
+
+export async function importUserData(userId: string, data: ImportAccountInput) {
+  const user = await getUserWithPassword(userId);
+  if (!user) {
+    throw new AppError('User not found', HTTP_STATUS.NOT_FOUND, 'NOT_FOUND');
+  }
+
+  return await importFullCareerData(userId, data);
+}
+

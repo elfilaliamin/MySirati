@@ -52,6 +52,57 @@ const formatDateRange = (item: EducationItem) => {
   return `${item.startDate || 'Start'} — ${end}`;
 };
 
+const getEducationDetails = (item: EducationItem, isNonAcademic: boolean) => {
+  const primaryTitle = isNonAcademic && item.degree ? item.degree : item.institution;
+  const subtitle = isNonAcademic && item.degree
+    ? `Provider: ${item.institution}`
+    : [item.degree, item.fieldOfStudy].filter(Boolean).join(' in ');
+  const topicTag = isNonAcademic && item.fieldOfStudy ? item.fieldOfStudy : null;
+  return { primaryTitle, subtitle, topicTag };
+};
+
+const EducationHeader: FC<{
+  meta: (typeof TYPE_META)[EducationType];
+  topicTag: string | null;
+  primaryTitle: string;
+  subtitle: string;
+}> = ({ meta, topicTag, primaryTitle, subtitle }) => {
+  const Icon = meta.icon;
+  return (
+    <div>
+      <div className="flex flex-wrap items-center gap-2 mb-2">
+        <Badge variant={meta.variant} size="sm">
+          <Icon className="h-3 w-3" />
+          <span>{meta.label}</span>
+        </Badge>
+        {topicTag && (
+          <span className="text-xs px-2 py-0.5 rounded-md bg-surface text-text-muted border border-border">
+            {topicTag}
+          </span>
+        )}
+      </div>
+      <h3 className="text-base font-semibold text-text">{primaryTitle}</h3>
+      {subtitle && <p className="text-sm font-medium text-text-muted mt-0.5">{subtitle}</p>}
+    </div>
+  );
+};
+
+const EducationDateRow: FC<{ dateStr: string | null; isCurrent: boolean }> = ({ dateStr, isCurrent }) => {
+  if (!dateStr) return null;
+  return (
+    <div className="flex items-center gap-1.5 text-xs text-text-muted">
+      <Calendar className="h-3.5 w-3.5 text-text-muted/80" />
+      <span>{dateStr}</span>
+      {isCurrent && (
+        <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-500 bg-emerald-500/10 px-1.5 py-0.5 rounded">
+          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+          Active
+        </span>
+      )}
+    </div>
+  );
+};
+
 export const EducationCard: FC<EducationCardProps> = ({
   item,
   canMoveUp,
@@ -63,65 +114,28 @@ export const EducationCard: FC<EducationCardProps> = ({
 }) => {
   const itemType: EducationType = item.type || 'academic';
   const meta = TYPE_META[itemType] || TYPE_META.academic;
-  const Icon = meta.icon;
-
-  const dateStr = formatDateRange(item);
-
-  // For non-academic courses/certificates, course title (degree) is often the primary focal point
   const isNonAcademic = itemType !== 'academic';
-  const primaryTitle = isNonAcademic && item.degree ? item.degree : item.institution;
-  const subtitle = isNonAcademic && item.degree ? item.institution : [item.degree, item.fieldOfStudy].filter(Boolean).join(' in ');
-  const topicTag = isNonAcademic && item.fieldOfStudy ? item.fieldOfStudy : null;
+  const { primaryTitle, subtitle, topicTag } = getEducationDetails(item, isNonAcademic);
+  const dateStr = formatDateRange(item);
 
   return (
     <Card className="hover:border-primary/30 transition-all shadow-sm hover:shadow-md">
       <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
-        <div className="space-y-2 flex-1">
-          {/* Header Row: Type Badge + Title */}
-          <div className="flex flex-wrap items-center gap-2">
-            <Badge variant={meta.variant} size="sm">
-              <Icon className="h-3 w-3" />
-              <span>{meta.label}</span>
-            </Badge>
-
-            {topicTag && (
-              <span className="text-xs px-2 py-0.5 rounded-md bg-surface text-text-muted border border-border">
-                {topicTag}
-              </span>
-            )}
-          </div>
-
-          <div>
-            <h3 className="text-base font-semibold text-text">{primaryTitle}</h3>
-            {subtitle && (
-              <p className="text-sm font-medium text-text-muted mt-0.5">
-                {isNonAcademic ? `Provider: ${subtitle}` : subtitle}
-              </p>
-            )}
-          </div>
-
-          {dateStr && (
-            <div className="flex items-center gap-1.5 text-xs text-text-muted">
-              <Calendar className="h-3.5 w-3.5 text-text-muted/80" />
-              <span>{dateStr}</span>
-              {item.isCurrent && (
-                <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-500 bg-emerald-500/10 px-1.5 py-0.5 rounded">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                  Active
-                </span>
-              )}
-            </div>
-          )}
-
+        <div className="space-y-2 flex-1 min-w-0">
+          <EducationHeader
+            meta={meta}
+            topicTag={topicTag}
+            primaryTitle={primaryTitle}
+            subtitle={subtitle}
+          />
+          <EducationDateRow dateStr={dateStr} isCurrent={item.isCurrent} />
           {item.description && (
             <p className="text-xs sm:text-sm text-text-muted mt-2 whitespace-pre-wrap leading-relaxed">
               {item.description}
             </p>
           )}
-
           <ItemLinksList links={item.links} />
         </div>
-
         <ItemActions
           canMoveUp={canMoveUp}
           canMoveDown={canMoveDown}

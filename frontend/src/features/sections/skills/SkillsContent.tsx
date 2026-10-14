@@ -10,8 +10,6 @@ import type { SkillItem } from '../sections.types';
 interface SkillsContentProps {
   items: SkillItem[];
   filter: ReturnType<typeof useSkillFilters>;
-  onMoveUp: (idx: number) => void;
-  onMoveDown: (idx: number) => void;
   onEdit: (item: SkillItem) => void;
   onDelete: (id: string) => void;
   onAdd: () => void;
@@ -20,8 +18,6 @@ interface SkillsContentProps {
 export const SkillsContent: FC<SkillsContentProps> = ({
   items,
   filter,
-  onMoveUp,
-  onMoveDown,
   onEdit,
   onDelete,
   onAdd,
@@ -57,10 +53,6 @@ export const SkillsContent: FC<SkillsContentProps> = ({
       />
       <SkillsGrid
         filteredItems={filter.filteredItems}
-        allItems={items}
-        isManualOrderActive={!filter.hasActiveFilters}
-        onMoveUp={onMoveUp}
-        onMoveDown={onMoveDown}
         onEdit={onEdit}
         onDelete={onDelete}
         onResetFilters={filter.resetFilters}

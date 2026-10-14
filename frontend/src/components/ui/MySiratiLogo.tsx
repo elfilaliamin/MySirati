@@ -22,41 +22,40 @@ export const MySiratiIcon: FC<{ size?: number; className?: string }> = ({
     <defs>
       <linearGradient id="siratiGrad" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
         <stop offset="0%" stopColor="#2563EB" />
-        <stop offset="60%" stopColor="#3B82F6" />
-        <stop offset="100%" stopColor="#60A5FA" />
+        <stop offset="50%" stopColor="#1D4ED8" />
+        <stop offset="100%" stopColor="#0284C7" />
       </linearGradient>
-      <linearGradient id="sparkGrad" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stopColor="#FFFFFF" />
-        <stop offset="100%" stopColor="#E0F2FE" />
-      </linearGradient>
-      <filter id="logoShadow" x="-10%" y="-10%" width="125%" height="125%">
-        <feDropShadow dx="0" dy="2" stdDeviation="2" floodColor="#1E40AF" floodOpacity="0.25" />
+      <filter id="logoShadow" x="-15%" y="-15%" width="130%" height="130%">
+        <feDropShadow dx="0" dy="2" stdDeviation="2" floodColor="#1E40AF" floodOpacity="0.3" />
       </filter>
     </defs>
 
-    {/* Rounded squircle brand container */}
-    <rect width="40" height="40" rx="10" fill="url(#siratiGrad)" filter="url(#logoShadow)" />
+    {/* Rounded squircle container */}
+    <rect width="40" height="40" rx="11" fill="url(#siratiGrad)" filter="url(#logoShadow)" />
 
     {/* Subtle highlight inner border */}
-    <rect x="0.5" y="0.5" width="39" height="39" rx="9.5" stroke="white" strokeOpacity="0.2" fill="none" />
+    <rect x="0.5" y="0.5" width="39" height="39" rx="10.5" stroke="white" strokeOpacity="0.2" fill="none" />
 
-    {/* Stylized 'S' Career Trajectory Path */}
+    {/* Central Sparkle Star outline */}
     <path
-      d="M26 13.5C25 11.2 22.8 10 20 10C16.2 10 13.5 12.2 13.5 15.2C13.5 21 26.5 19 26.5 25C26.5 28.2 23.5 30 19.8 30C16.2 30 13.8 28.2 13 25.5"
-      stroke="url(#sparkGrad)"
-      strokeWidth="3.2"
+      d="M 18.7 11.8 A 1.3 1.3 0 0 1 21.3 11.8 L 21.3 16.2 Q 21.3 18.7 23.8 18.7 L 28.2 18.7 A 1.3 1.3 0 0 1 28.2 21.3 L 23.8 21.3 Q 21.3 21.3 21.3 23.8 L 21.3 28.2 A 1.3 1.3 0 0 1 18.7 28.2 L 18.7 23.8 Q 18.7 21.3 16.2 21.3 L 11.8 21.3 A 1.3 1.3 0 0 1 11.8 18.7 L 16.2 18.7 Q 18.7 18.7 18.7 16.2 Z"
+      fill="none"
+      stroke="white"
+      strokeWidth="1.8"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
 
-    {/* AI Career Node / Sparkle Top-Right */}
+    {/* Top-Right Sparkle */}
     <path
-      d="M28 8.5C28 10.5 29 11.5 31 11.5C29 11.5 28 12.5 28 14.5C28 12.5 27 11.5 25 11.5C27 11.5 28 10.5 28 8.5Z"
-      fill="#FDE047"
+      d="M 26.8 11.1 V 14.5 M 25.1 12.8 H 28.5"
+      stroke="white"
+      strokeWidth="1.6"
+      strokeLinecap="round"
     />
 
-    {/* Secondary micro AI spark bottom-left */}
-    <circle cx="11.5" cy="27" r="1.5" fill="#93C5FD" fillOpacity="0.9" />
+    {/* Bottom-Left Ring */}
+    <circle cx="13.8" cy="26.5" r="2.0" stroke="white" strokeWidth="1.5" fill="none" />
   </svg>
 );
 

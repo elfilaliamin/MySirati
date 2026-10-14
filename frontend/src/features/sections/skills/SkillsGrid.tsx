@@ -7,10 +7,6 @@ import type { SkillItem } from '../sections.types';
 
 interface SkillsGridProps {
   filteredItems: SkillItem[];
-  allItems: SkillItem[];
-  isManualOrderActive: boolean;
-  onMoveUp: (idx: number) => void;
-  onMoveDown: (idx: number) => void;
   onEdit: (item: SkillItem) => void;
   onDelete: (id: string) => void;
   onResetFilters: () => void;
@@ -18,10 +14,6 @@ interface SkillsGridProps {
 
 export const SkillsGrid: FC<SkillsGridProps> = ({
   filteredItems,
-  allItems,
-  isManualOrderActive,
-  onMoveUp,
-  onMoveDown,
   onEdit,
   onDelete,
   onResetFilters,
@@ -40,14 +32,10 @@ export const SkillsGrid: FC<SkillsGridProps> = ({
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-      {filteredItems.map((item, idx) => (
+      {filteredItems.map((item) => (
         <SkillCard
           key={item.id}
           item={item}
-          canMoveUp={isManualOrderActive && idx > 0}
-          canMoveDown={isManualOrderActive && idx < allItems.length - 1}
-          onMoveUp={() => onMoveUp(idx)}
-          onMoveDown={() => onMoveDown(idx)}
           onEdit={() => onEdit(item)}
           onDelete={() => onDelete(item.id)}
         />
