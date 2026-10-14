@@ -11,30 +11,28 @@ interface LinkRowProps {
 }
 
 export const LinkRow: FC<LinkRowProps> = ({ link, onUpdate, onRemove }) => (
-  <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 p-2 sm:p-0 rounded-xl bg-surface/40 sm:bg-transparent border border-border/40 sm:border-0">
+  <div className="grid grid-cols-1 sm:grid-cols-[1fr_2fr_auto] items-center gap-2 p-2 sm:p-0 rounded-xl bg-surface/30 sm:bg-transparent border border-border/40 sm:border-0">
     <Input
       placeholder="Label (e.g. GitHub)"
       value={link.label}
       onChange={(e) => onUpdate('label', e.target.value)}
-      className="flex-1"
+      containerClassName="w-full"
     />
-    <div className="flex items-center gap-2 flex-1">
-      <Input
-        placeholder="https://..."
-        value={link.url}
-        onChange={(e) => onUpdate('url', e.target.value)}
-        className="flex-1"
-      />
-      <Button
-        type="button"
-        variant="ghost"
-        size="sm"
-        onClick={onRemove}
-        className="text-danger hover:text-danger hover:bg-danger/10 shrink-0"
-        aria-label="Remove link"
-      >
-        <Trash2 className="h-4 w-4" />
-      </Button>
-    </div>
+    <Input
+      placeholder="URL (https://...)"
+      value={link.url}
+      onChange={(e) => onUpdate('url', e.target.value)}
+      containerClassName="w-full"
+    />
+    <Button
+      type="button"
+      variant="ghost"
+      size="sm"
+      onClick={onRemove}
+      className="text-danger hover:text-danger hover:bg-danger/10 h-10 w-10 p-0 shrink-0 self-center justify-self-end sm:justify-self-center rounded-xl"
+      aria-label="Remove link"
+    >
+      <Trash2 className="h-4 w-4" />
+    </Button>
   </div>
 );

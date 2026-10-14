@@ -7,6 +7,7 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   helperText?: string;
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
+  containerClassName?: string;
 }
 
 const InputHelper: FC<{ error?: string; helperText?: string }> = ({ error, helperText }) => {
@@ -23,11 +24,11 @@ const buildInputClass = (hasError: boolean, hasLeft: boolean, hasRight: boolean,
 };
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, error, helperText, leftIcon, rightIcon, className = '', id, ...props }, ref) => {
+  ({ label, error, helperText, leftIcon, rightIcon, className = '', containerClassName = '', id, ...props }, ref) => {
     const inputId = id || props.name;
 
     return (
-      <div className="flex flex-col gap-1.5 text-left w-full">
+      <div className={`flex flex-col gap-1.5 text-left w-full min-w-0 ${containerClassName}`}>
         {label && (
           <label htmlFor={inputId} className="text-xs font-semibold text-text">
             {label}
