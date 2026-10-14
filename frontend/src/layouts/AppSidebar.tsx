@@ -1,7 +1,8 @@
-import { LogOut, ShieldAlert, Sparkles, X } from 'lucide-react';
+import { LogOut, ShieldAlert, X } from 'lucide-react';
 import type { FC } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 
+import { MySiratiIcon } from '../components/ui';
 import { NAV_GROUPS } from '../constants/nav.constants';
 import type { NavLinkItem } from '../constants/nav.constants';
 import { useAuth } from '../features/auth/auth.context';
@@ -27,10 +28,8 @@ const SidebarBrand: FC<{ onItemClick?: () => void }> = ({ onItemClick }) => {
 
   return (
     <div className="flex items-center justify-between px-2 pb-5 pt-1">
-      <Link to={brandTarget} onClick={onItemClick} className="flex items-center gap-2.5 font-bold text-text">
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-white shadow-md shadow-primary/20">
-          <Sparkles className="h-5 w-5" />
-        </div>
+      <Link to={brandTarget} onClick={onItemClick} className="flex items-center gap-2.5 font-bold text-text group">
+        <MySiratiIcon size={40} className="group-hover:scale-105 transition-transform" />
         <div className="flex flex-col">
           <span className="text-base font-extrabold tracking-tight text-text leading-none">
             MySirati

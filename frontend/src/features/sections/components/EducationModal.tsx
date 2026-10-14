@@ -4,22 +4,29 @@ import { useEffect, useState } from 'react';
 import { EducationFields } from './EducationFields';
 import { LinksEditor } from './LinksEditor';
 import { Button, Modal } from '../../../components/ui';
-import type { EducationItem } from '../sections.types';
+import type { EducationItem, EducationType } from '../sections.types';
 
 interface EducationModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSave: (data: Partial<EducationItem>) => Promise<void>;
   item?: EducationItem | null;
+  initialType?: EducationType;
 }
 
-export const EducationModal: FC<EducationModalProps> = ({ isOpen, onClose, onSave, item }) => {
+export const EducationModal: FC<EducationModalProps> = ({
+  isOpen,
+  onClose,
+  onSave,
+  item,
+  initialType = 'academic',
+}) => {
   const [form, setForm] = useState<Partial<EducationItem>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    setForm(item || { institution: '', links: [] });
-  }, [item, isOpen]);
+    setForm(item || { type: initialType, institution: '', links: [] });
+  }, [item, isOpen, initialType]);
 
   const update = (k: keyof EducationItem, v: unknown) => setForm((p) => ({ ...p, [k]: v }));
 
@@ -27,17 +34,37 @@ export const EducationModal: FC<EducationModalProps> = ({ isOpen, onClose, onSav
     e.preventDefault();
     try {
       setIsSubmitting(true);
-      await onSave({ ...form, endDate: form.isCurrent ? null : form.endDate || null });
+      await onSave({
+        ...form,
+        type: form.type || 'academic',
+        endDate: form.isCurrent ? null : form.endDate || null,
+      });
       onClose();
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  const getModalTitle = () => {
+    if (item) return 'Edit Education Item';
+    switch (form.type) {
+      case 'course':
+        return 'Add Online Course';
+      case 'bootcamp':
+        return 'Add Bootcamp';
+      case 'certificate':
+        return 'Add Certification';
+      default:
+        return 'Add Academic Degree';
+    }
+  };
+
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title={item ? 'Edit Education' : 'Add Education'} maxWidth="lg">
+    <Modal isOpen={isOpen} onClose={onClose} title={getModalTitle()} maxWidth="lg">
       <form onSubmit={handleSubmit} className="space-y-4">
         <EducationFields
+          type={form.type || 'academic'}
+          setType={(v) => update('type', v)}
           institution={form.institution || ''}
           setInstitution={(v) => update('institution', v)}
           degree={form.degree || ''}
@@ -55,8 +82,12 @@ export const EducationModal: FC<EducationModalProps> = ({ isOpen, onClose, onSav
         />
         <LinksEditor links={form.links || []} onChange={(v) => update('links', v)} />
         <div className="flex justify-end gap-3 pt-3 border-t border-border">
-          <Button type="button" variant="outline" onClick={onClose}>Cancel</Button>
-          <Button type="submit" isLoading={isSubmitting}>{item ? 'Save Changes' : 'Add Item'}</Button>
+          <Button type="button" variant="outline" onClick={onClose}>
+            Cancel
+          </Button>
+          <Button type="submit" isLoading={isSubmitting}>
+            {item ? 'Save Changes' : 'Add Item'}
+          </Button>
         </div>
       </form>
     </Modal>

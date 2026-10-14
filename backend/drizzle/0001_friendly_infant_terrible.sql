@@ -1,0 +1,1 @@
+ALTER TABLE "education" ADD COLUMN "type" varchar(50) DEFAULT 'academic' NOT NULL;

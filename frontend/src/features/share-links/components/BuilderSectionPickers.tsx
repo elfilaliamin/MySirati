@@ -43,14 +43,21 @@ function SectionPickerRow<T extends { id: string }>({
 
 const PrimarySectionPickers: FC<BuilderSectionPickersProps> = ({ include, onChange }) => (
   <>
-    <SectionPickerRow<{ id: string; institution: string; degree?: string }>
+    <SectionPickerRow<{ id: string; institution: string; degree?: string; type?: string }>
       label="Education"
       sectionKey="education"
       isEnabled={include.education}
       onToggleEnabled={(v) => onChange({ education: v })}
       selectedIds={(include.educationItemIds as string[]) || []}
       onChangeSelectedIds={(ids) => onChange({ educationItemIds: ids })}
-      formatItem={(i) => ({ id: i.id, title: i.institution, subtitle: i.degree })}
+      formatItem={(i) => {
+        const isNonAcademic = i.type && i.type !== 'academic';
+        return {
+          id: i.id,
+          title: isNonAcademic && i.degree ? i.degree : i.institution,
+          subtitle: isNonAcademic && i.degree ? i.institution : i.degree,
+        };
+      }}
     />
     <SectionPickerRow<{ id: string; company: string; title: string }>
       label="Work Experiences"

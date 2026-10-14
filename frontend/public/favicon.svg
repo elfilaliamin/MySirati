@@ -1,16 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
   <defs>
-    <linearGradient id="brandGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#3B82F6"/>
-      <stop offset="100%" stop-color="#2563EB"/>
+    <linearGradient id="favGrad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#2563EB"/>
+      <stop offset="60%" stop-color="#3B82F6"/>
+      <stop offset="100%" stop-color="#60A5FA"/>
     </linearGradient>
   </defs>
-  <rect width="32" height="32" rx="8" fill="url(#brandGrad)"/>
-  <g transform="translate(5, 5) scale(0.9167)" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none">
-    <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/>
-    <path d="M20 3v4"/>
-    <path d="M22 5h-4"/>
-    <path d="M4 17v2"/>
-    <path d="M5 18H3"/>
-  </g>
+  <rect width="32" height="32" rx="8" fill="url(#favGrad)"/>
+  <rect x="0.5" y="0.5" width="31" height="31" rx="7.5" stroke="#FFFFFF" stroke-opacity="0.25" fill="none"/>
+  <!-- Stylized 'S' -->
+  <path d="M21 11C20.2 9.2 18.4 8 16 8C13 8 11 9.8 11 12.2C11 17 21 15.2 21 20C21 22.5 18.6 24 15.8 24C12.8 24 11 22.5 10.5 20.5" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- AI Sparkle -->
+  <path d="M22.5 6.5C22.5 8 23.5 8.8 25 8.8C23.5 8.8 22.5 9.6 22.5 11.2C22.5 9.6 21.5 8.8 20 8.8C21.5 8.8 22.5 8 22.5 6.5Z" fill="#FDE047"/>
 </svg>

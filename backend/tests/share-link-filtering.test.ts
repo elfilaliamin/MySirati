@@ -32,6 +32,7 @@ const mockDataset: UserCareerDataset = {
     {
       id: 'edu-1',
       userId: 'user-1',
+      type: 'academic',
       institution: 'University of Oxford',
       degree: 'BSc Computer Science',
       fieldOfStudy: 'Software Engineering',
@@ -41,6 +42,22 @@ const mockDataset: UserCareerDataset = {
       description: 'First class honors',
       links: [],
       position: 1,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      id: 'edu-2',
+      userId: 'user-1',
+      type: 'course',
+      institution: 'Coursera / DeepLearning.AI',
+      degree: 'Deep Learning Specialization',
+      fieldOfStudy: 'Artificial Intelligence',
+      startDate: '2021-01-01',
+      endDate: '2021-04-01',
+      isCurrent: false,
+      description: 'Neural networks, hyperparameter tuning, CNNs, and Sequence Models.',
+      links: [{ label: 'Certificate', url: 'https://coursera.org/verify/SAMPLE123' }],
+      position: 2,
       createdAt: new Date(),
       updatedAt: new Date(),
     },
@@ -239,5 +256,27 @@ describe('TASK-1003: Public Share Link Filtering & Security', () => {
 
     assert.strictEqual(resume.work?.[0]?.links, undefined);
     assert.strictEqual(resume.projects?.[0]?.links, undefined);
+  });
+
+  it('correctly maps traditional and non-traditional course education with their types and certificates', () => {
+    const resume = buildJsonResume(mockDataset, {
+      basics: true,
+      email: false,
+      phone: false,
+      itemLinks: true,
+      education: true,
+      experiences: false,
+      projects: false,
+      skills: false,
+      languages: false,
+    });
+
+    assert.strictEqual(resume.education?.length, 2);
+    assert.strictEqual(resume.education?.[0]?.institution, 'University of Oxford');
+    assert.strictEqual(resume.education?.[0]?.type, 'academic');
+    assert.strictEqual(resume.education?.[1]?.institution, 'Coursera / DeepLearning.AI');
+    assert.strictEqual(resume.education?.[1]?.type, 'course');
+    assert.strictEqual(resume.education?.[1]?.studyType, 'Deep Learning Specialization');
+    assert.strictEqual(resume.education?.[1]?.links?.[0]?.label, 'Certificate');
   });
 });

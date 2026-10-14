@@ -14,8 +14,12 @@ export type SectionName = (typeof SECTION_NAMES)[number];
 
 export const sectionParamSchema = z.enum(SECTION_NAMES);
 
+export const EDUCATION_TYPES = ['academic', 'course', 'bootcamp', 'certificate'] as const;
+export type EducationType = (typeof EDUCATION_TYPES)[number];
+
 export const educationInputSchema = z.object({
-  institution: z.string().trim().min(1, 'Institution is required').max(200),
+  type: z.enum(EDUCATION_TYPES).default('academic'),
+  institution: z.string().trim().min(1, 'Institution / Platform is required').max(200),
   degree: z.string().trim().max(150).nullable().optional(),
   fieldOfStudy: z.string().trim().max(150).nullable().optional(),
   startDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Date format must be YYYY-MM-DD').nullable().optional(),

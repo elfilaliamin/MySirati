@@ -16,8 +16,11 @@ export interface Profile {
   updatedAt?: string;
 }
 
+export type EducationType = 'academic' | 'course' | 'bootcamp' | 'certificate';
+
 export interface EducationItem {
   id: string;
+  type?: EducationType;
   institution: string;
   degree?: string | null;
   fieldOfStudy?: string | null;

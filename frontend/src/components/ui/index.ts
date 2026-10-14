@@ -7,3 +7,4 @@ export * from './Modal';
 export * from './Select';
 export * from './ThemeToggle';
 export * from './ToastContext';
+export * from './MySiratiLogo';

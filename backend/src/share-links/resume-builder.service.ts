@@ -59,6 +59,7 @@ const mapEducation = (education: Education[], inc: ShareLinkIncludeOptions) => {
   const filtered = filterByIds(education, inc.educationItemIds);
   return filtered.map((edu) => ({
     institution: edu.institution,
+    type: edu.type || 'academic',
     area: edu.fieldOfStudy || undefined,
     studyType: edu.degree || undefined,
     startDate: edu.startDate || null,

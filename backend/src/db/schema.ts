@@ -87,6 +87,7 @@ export const educationTable = pgTable('education', {
   institution: varchar('institution', { length: 200 }).notNull(),
   degree: varchar('degree', { length: 150 }),
   fieldOfStudy: varchar('field_of_study', { length: 150 }),
+  type: varchar('type', { length: 50 }).default('academic').notNull(),
   startDate: date('start_date'),
   endDate: date('end_date'),
   isCurrent: boolean('is_current').default(false).notNull(),

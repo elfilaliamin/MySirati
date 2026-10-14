@@ -1,7 +1,8 @@
-import { Menu, Sparkles, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import type { FC } from 'react';
 import { Link } from 'react-router-dom';
 
+import { MySiratiIcon } from '../components/ui';
 import { useAuth } from '../features/auth/auth.context';
 
 interface HeaderBrandProps {
@@ -32,11 +33,9 @@ export const HeaderBrand: FC<HeaderBrandProps> = ({
 
       <Link
         to={user ? (user.role === 'admin' ? '/admin' : '/dashboard') : '/'}
-        className={`flex items-center gap-2.5 font-bold text-text ${showSidebar && user ? 'lg:hidden' : ''}`}
+        className={`flex items-center gap-2.5 font-bold text-text group ${showSidebar && user ? 'lg:hidden' : ''}`}
       >
-        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-white shadow-sm">
-          <Sparkles className="h-5 w-5" />
-        </div>
+        <MySiratiIcon size={34} className="group-hover:scale-105 transition-transform" />
         <span className="text-base tracking-tight font-extrabold">MySirati</span>
       </Link>
     </div>
