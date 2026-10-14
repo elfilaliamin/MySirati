@@ -42,7 +42,7 @@ export const ProjectCard: FC<ProjectCardProps> = ({
               <h3 className="text-base font-semibold text-text">{item.name}</h3>
             </div>
             {item.role && (
-              <p className="text-xs sm:text-sm font-medium text-text-muted mt-0.5 ml-6">
+              <p className="text-xs sm:text-sm font-medium text-text-muted mt-0.5">
                 {item.role}
               </p>
             )}
