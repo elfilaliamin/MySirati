@@ -120,9 +120,8 @@ export const EducationPage: FC = () => {
               variant="outline"
               size="sm"
               onClick={() => handleOpenAdd('course')}
-              className="text-xs"
+              leftIcon={<Plus className="h-3.5 w-3.5" />}
             >
-              <Plus className="h-3.5 w-3.5 mr-1" />
               Add Course
             </Button>
           </div>
@@ -145,10 +144,10 @@ export const EducationPage: FC = () => {
           <Button
             variant="outline"
             size="sm"
-            className="mt-3 text-xs"
+            className="mt-3"
             onClick={() => handleOpenAdd(activeTab === 'course' ? 'course' : activeTab === 'certificate' ? 'certificate' : 'academic')}
+            leftIcon={<Plus className="h-3.5 w-3.5" />}
           >
-            <Plus className="h-3.5 w-3.5 mr-1" />
             Add to {activeTab === 'course' ? 'Courses' : activeTab === 'certificate' ? 'Certifications' : 'Degrees'}
           </Button>
         </div>

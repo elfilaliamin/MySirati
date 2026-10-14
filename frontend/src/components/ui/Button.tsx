@@ -44,10 +44,10 @@ export const Button: FC<ButtonProps> = ({
     <button
       {...props}
       disabled={isDisabled}
-      className={`inline-flex items-center justify-center font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${VARIANT_STYLES[variant]} ${SIZE_STYLES[size]} ${className}`}
+      className={`inline-flex items-center justify-center font-medium whitespace-nowrap transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${VARIANT_STYLES[variant]} ${SIZE_STYLES[size]} ${className}`}
     >
-      {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : leftIcon}
-      <span>{children}</span>
+      {isLoading ? <Loader2 className="h-4 w-4 animate-spin shrink-0" /> : leftIcon}
+      <span className="inline-flex items-center gap-1.5 leading-none">{children}</span>
       {!isLoading && rightIcon}
     </button>
   );
