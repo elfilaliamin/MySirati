@@ -31,13 +31,15 @@ export const HeaderBrand: FC<HeaderBrandProps> = ({
         </button>
       )}
 
-      <Link
-        to={user ? (user.role === 'admin' ? '/admin' : '/dashboard') : '/'}
-        className={`flex items-center gap-2.5 font-bold text-text group ${showSidebar && user ? 'lg:hidden' : ''}`}
-      >
-        <MySiratiIcon size={34} className="group-hover:scale-105 transition-transform" />
-        <span className="text-base tracking-tight font-extrabold">MySirati</span>
-      </Link>
+      {(!showSidebar || !user) && (
+        <Link
+          to={user ? (user.role === 'admin' ? '/admin' : '/dashboard') : '/'}
+          className="flex items-center gap-2.5 font-bold text-text group"
+        >
+          <MySiratiIcon size={34} className="group-hover:scale-105 transition-transform" />
+          <span className="text-base tracking-tight font-extrabold">MySirati</span>
+        </Link>
+      )}
     </div>
   );
 };

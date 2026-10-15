@@ -45,8 +45,8 @@ export const useSectionMutations = <T extends { id: string }>(section: SectionTy
 
   const reorderMutation = useMutation({
     mutationFn: (itemIds: string[]) =>
-      apiClient<{ message: string }>(`/api/sections/${section}/reorder`, {
-        method: 'PUT',
+      apiClient<{ success: boolean }>(`/api/sections/${section}/reorder`, {
+        method: 'PATCH',
         data: { itemIds },
       }),
     onSuccess: () => invalidate(),

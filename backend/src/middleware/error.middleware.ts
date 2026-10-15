@@ -1,4 +1,5 @@
 import type { NextFunction, Request, Response } from 'express';
+import { ZodError } from 'zod';
 
 import { HTTP_STATUS } from '../constants/http.constants.js';
 import type { ApiErrorPayload } from '../types/error.types.js';
@@ -21,6 +22,19 @@ export function errorHandler(
       },
     };
     response.status(error.statusCode).json(errorResponse);
+    return;
+  }
+
+  if (error instanceof ZodError) {
+    const errorResponse: ApiErrorPayload = {
+      success: false,
+      error: {
+        code: 'VALIDATION_ERROR',
+        message: error.errors.map((e) => e.message).join(', ') || 'Validation error',
+        details: error.flatten(),
+      },
+    };
+    response.status(HTTP_STATUS.BAD_REQUEST).json(errorResponse);
     return;
   }
 

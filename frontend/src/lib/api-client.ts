@@ -16,10 +16,14 @@ interface RequestOptions extends RequestInit {
 const parseErrorResponse = async (response: Response): Promise<ApiClientError> => {
   try {
     const errorJson = await response.json();
+    const message =
+      errorJson.error?.message ||
+      errorJson.message ||
+      `Request failed with status ${response.status}`;
     return new ApiClientError(
       response.status,
-      errorJson.message || `Request failed with status ${response.status}`,
-      errorJson.errors
+      message,
+      errorJson.errors || errorJson.error?.details
     );
   } catch {
     return new ApiClientError(

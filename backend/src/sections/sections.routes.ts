@@ -18,6 +18,7 @@ sectionsRouter.use(requireAuth);
 sectionsRouter.get('/:section', asyncHandler(handleListSectionItems));
 sectionsRouter.post('/:section', asyncHandler(handleCreateSectionItem));
 sectionsRouter.patch('/:section/reorder', asyncHandler(handleReorderSectionItems));
+sectionsRouter.put('/:section/reorder', asyncHandler(handleReorderSectionItems));
 sectionsRouter.get('/:section/:id', asyncHandler(handleGetSectionItem));
 sectionsRouter.put('/:section/:id', asyncHandler(handleUpdateSectionItem));
 sectionsRouter.delete('/:section/:id', asyncHandler(handleDeleteSectionItem));
