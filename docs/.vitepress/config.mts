@@ -5,8 +5,9 @@ export default defineConfig({
   title: 'MySirati Documentation',
   description: 'AI-ready career data platform, cryptographic share links, and JSON Resume API.',
   lang: 'en-US',
-  lastUpdated: true,
+  lastUpdated: false,
   cleanUrls: true,
+  ignoreDeadLinks: true,
 
   head: [
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/docs/favicon.svg' }],
@@ -37,7 +38,7 @@ export default defineConfig({
       {
         text: 'Platform',
         items: [
-          { text: 'Launch Web App', link: '/' },
+          { text: 'Launch Web App', link: '/', target: '_self' },
           { text: 'GitHub Repository', link: 'https://github.com/elfilaliamin/MySirati' },
         ],
       },

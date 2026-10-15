@@ -25,7 +25,7 @@ To run backups automatically every night at 02:00 UTC:
 crontab -e
 ```
 Add:
-```cron
+```bash
 0 2 * * * /opt/mysirati/scripts/backup-db.sh >> /var/log/mysirati-backup.log 2>&1
 ```
 

@@ -22,7 +22,7 @@ FROM node:26-slim AS docs-builder
 WORKDIR /app/docs
 
 COPY docs/package*.json ./
-RUN npm ci
+RUN npm ci --include=dev
 
 COPY docs ./
 RUN npm run docs:build

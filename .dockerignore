@@ -2,8 +2,8 @@ node_modules
 **/node_modules
 dist
 **/dist
-.vitepress/dist
-.vitepress/cache
+**/.vitepress/dist
+**/.vitepress/cache
 .git
 .env
 .env.*
