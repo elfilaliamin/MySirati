@@ -1,4 +1,4 @@
-import { AlertTriangle, Check, Copy } from 'lucide-react';
+import { AlertTriangle, Check, Copy, ExternalLink } from 'lucide-react';
 import type { FC } from 'react';
 import { useState } from 'react';
 
@@ -52,9 +52,20 @@ const PromptCopySection: FC<{ prompt: string }> = ({ prompt }) => {
 
   return (
     <div>
-      <label className="text-xs font-semibold text-text block mb-1.5">
-        Ready-Made Prompt for ChatGPT, Claude & Gemini
-      </label>
+      <div className="flex items-center justify-between mb-1.5">
+        <label className="text-xs font-semibold text-text block">
+          Ready-Made Prompt for ChatGPT, Claude & Gemini
+        </label>
+        <a
+          href="/docs/ai/prompts-and-workflows"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-[11px] text-primary hover:underline inline-flex items-center gap-1 font-medium"
+        >
+          <span>AI Guide & Prompts</span>
+          <ExternalLink className="h-3 w-3" />
+        </a>
+      </div>
       <div className="rounded-xl border border-border bg-surface p-3 text-xs text-text-muted leading-relaxed whitespace-pre-wrap font-sans break-all [overflow-wrap:anywhere] select-all max-h-48 overflow-y-auto">
         {prompt}
       </div>

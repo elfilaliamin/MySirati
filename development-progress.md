@@ -28,6 +28,7 @@ MySirati is a modern web application enabling users to curate, version, and sele
 | **Database & Migrations** | **PostgreSQL 16 (`postgres:16-alpine`) + Drizzle ORM + drizzle-kit** | *Drizzle ORM* provides end-to-end TypeScript type inference with zero runtime code-generation bloat and SQL-like ergonomics. *drizzle-kit* generates deterministic SQL migration scripts from pure TypeScript schema definitions. |
 | **Security & Authentication** | **Argon2 + Helmet + Express Rate Limit + Crypto** | Argon2 provides state-of-the-art password hashing resilient to GPU attacks; cryptographic random bytes (32 bytes base64url) power one-time secret keys; secure HTTP-only cookies protect sessions. |
 | **Logging** | **Pino + Pino-HTTP** | High-performance JSON structured logging with query-string redaction to safeguard secret keys. |
+| **Documentation Engine** | **VitePress (Vue 3 + Vite)** | Markdown-centered static documentation with built-in instant search, dark mode, responsive sidebar, zero-overhead static HTML pre-rendering, served seamlessly at `/docs`. |
 
 ---
 
@@ -60,6 +61,7 @@ flowchart TD
     AIAssistant -->|"HTTPS /api/p?key=..."| Tunnel
     Tunnel -->|"HTTP tunnel_net"| FrontendNginx
     FrontendNginx -->|"Static SPA /"| UserBrowser
+    FrontendNginx -->|"Static Docs /docs/*"| UserBrowser
     FrontendNginx -->|"Reverse Proxy /api/*"| BackendAPI
     BackendAPI -->|"Drizzle ORM / TCP:5432"| PostgresDB
 ```
@@ -707,6 +709,28 @@ Components utilize **only** semantic CSS variables. No raw hex colors and no dir
   - *Acceptance Criteria*: String dictionary abstraction supporting RTL layout orientation.
   - *Dependencies*: Phase 10.
 
+### Phase 13: Project Documentation with VitePress (`/docs`)
+- [x] `TASK-1301`: VitePress Architecture, Workspace Setup & Theme Customization
+  - *Acceptance Criteria*: Initialize VitePress in `docs/` with base route `/docs/` (`base: '/docs/'`), configure `.vitepress/config.mts` with MySirati branding (custom SVG icon, brand gradients, typography, top navigation links, and GitHub repository link), define multi-level sidebar navigation hierarchy, and create development/build npm scripts (`npm run docs:dev`, `npm run docs:build`, `npm run docs:preview`).
+  - *Dependencies*: Phase 0, Phase 11.
+- [x] `TASK-1302`: Comprehensive Content Authoring (Guides, Architecture, AI & APIs)
+  - *Acceptance Criteria*: Complete high-quality Markdown content structured into five core modules:
+    1. **Overview & Getting Started**: Introduction to MySirati, key capabilities, quickstart setup, account creation, and tour of profile sections.
+    2. **Architecture & Security Deep-Dive**: Multi-tier architecture diagram, network topologies (`mysirati_default` and `tunnel_net`), cryptographic 32-byte share keys with SHA-256 hash storage, user data isolation mechanisms, and admin route obscurity (`DEC-001`).
+    3. **AI Resume Integration & Prompting**: Format specification of generated JSON Resume payloads, LLM safety preamble guidelines, granular section and item-level inclusion (`DEC-006`), and copy-ready system prompts for Claude, ChatGPT, and Gemini.
+    4. **Deployment & Operations**: Production Docker Compose setup, Cloudflare tunnel routing, automated PostgreSQL database backups and restore workflows (`scripts/backup-db.sh`, `scripts/restore-db.sh`), and environment variable reference (`.env.example`).
+    5. **API & Developer Reference**: Exhaustive specifications of all endpoints (`/api/auth`, `/api/profile`, `/api/sections`, `/api/share-links`, `/api/p`, `/api/admin`), request/response JSON schemas, error response envelopes (`ApiErrorPayload`), and session cookie authentication.
+  - *Dependencies*: `TASK-1301`.
+- [x] `TASK-1303`: Multi-Stage Docker Build & Nginx Routing for `/docs`
+  - *Acceptance Criteria*: Update `frontend/Dockerfile` multi-stage build pipeline to build VitePress documentation and place static assets into `/usr/share/nginx/html/docs`; update `frontend/nginx.conf` with dedicated `location /docs/` block with correct root/alias, index resolution (`/docs/index.html`), and caching rules; ensure visiting `https://<domain>/docs` or `https://<domain>/docs/` serves the documentation homepage without conflicting with React SPA routes (`/`) or the API proxy (`/api/`).
+  - *Dependencies*: `TASK-1301`, `TASK-1302`.
+- [x] `TASK-1304`: In-App Navigation & Cross-Linking to Documentation
+  - *Acceptance Criteria*: Add accessible documentation links to `/docs` in `AppHeader`, `AppSidebar` navigation groups, `AppFooter`, `LandingPage` resource links, and within the AI Share Link modal (e.g. "Learn how AI assistants consume this link"); ensure links open cleanly with seamless navigation between the React SPA and VitePress.
+  - *Dependencies*: `TASK-1303`.
+- [x] `TASK-1305`: Search, Dark Mode Consistency & Build Verification
+  - *Acceptance Criteria*: Configure VitePress built-in local fuzzy search (Minisearch); harmonize dark/light theme switching with MySirati's semantic color system; verify `npm run docs:build` passes with zero dead internal links or markdown linting warnings across CI and production Docker builds.
+  - *Dependencies*: `TASK-1303`, `TASK-1304`.
+
 ---
 
 ## 12. Progress Log, Decisions Log & Open Questions
@@ -773,6 +797,11 @@ Components utilize **only** semantic CSS variables. No raw hex colors and no dir
 | 2026-10-13 | `TASK-1103` | TOTP two-factor authentication roadmap documented | Created `docs/totp-roadmap.md` detailing RFC 6238 TOTP architecture, DB schema, recovery codes, and UI flow. |
 | 2026-10-13 | `TASK-1201` | WCAG 2.1 AA accessibility audit implemented | Created SkipToContent bypass link, added main landmark with role="main", focus-visible rings on all interactive elements. |
 | 2026-10-13 | `TASK-1202` | Multilingual i18n subsystem & Arabic RTL implemented | Created i18n context with EN, FR, AR dictionary, dynamic dir="rtl" & lang="ar" switches, and LanguageSwitcher component. |
+| 2026-10-15 | `TASK-1301` | VitePress project architecture implemented | Configured `docs/` VitePress workspace with `/docs/` base URL, custom theme, and navigation. |
+| 2026-10-15 | `TASK-1302` | Comprehensive documentation authoring completed | Created 18 markdown guides across Getting Started, Architecture, AI Integration, Operations, and API Reference. |
+| 2026-10-15 | `TASK-1303` | Nginx `/docs/` routing & multi-stage Dockerfile implemented | Built multi-stage Dockerfile serving React SPA and VitePress static docs at `/docs` via Nginx. |
+| 2026-10-15 | `TASK-1304` | Cross-linking & navigation integration implemented | Added documentation cross-links to sidebar, landing page hero, footer, and AI prompt modal. |
+| 2026-10-15 | `TASK-1305` | Search & theme synchronization verified | Configured Minisearch local search, brand theme variables, and verified zero-error build. |
 
 ### Decisions Log
 | ID | Decision | Rationale | Alternatives Considered |
@@ -783,7 +812,10 @@ Components utilize **only** semantic CSS variables. No raw hex colors and no dir
 | `DEC-004` | Pure semantic CSS variables for themes | Eliminates cumbersome `dark:` class overrides across every JSX tag and ensures seamless theming. | Tailwind inline dark utility classes. |
 | `DEC-005` | Reverse proxy `/api` through frontend Nginx | Browsers interact with single origin, eliminating CORS complexity and preflight overhead. | Cross-origin CORS headers on backend. |
 | `DEC-006` | Granular item-level inclusion for share links | Enables users to share tailored sub-selections of specific projects and experiences (e.g. for a specific job application) rather than all-or-nothing section exports. | Binary section-level inclusion only (too rigid for tailored resumes). |
+| `DEC-007` | Serve VitePress documentation at `/docs` through Frontend Nginx | Unifies application and documentation on a single origin (`website.com/docs`), eliminates additional container or port requirements, preserves server resources, and leverages Nginx caching. | Dedicated docs container on separate subdomain/port (requires extra Cloudflare tunnel config, consumes additional memory/ports). |
 
 ### Open Questions
-- *All 12 phases complete. System production-ready.*
+- **Documentation i18n**: Should VitePress documentation support multilingual tabs (English, French, Arabic with RTL) immediately in Phase 13 or as a subsequent enhancement following the initial English rollout?
+- **Automated API Spec**: Should API documentation in VitePress be partially generated from backend Zod schemas / OpenAPI export or maintained as curated interactive markdown examples?
+
 

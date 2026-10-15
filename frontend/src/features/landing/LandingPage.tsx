@@ -1,4 +1,4 @@
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight, BookOpen, Sparkles } from 'lucide-react';
 import type { FC } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -6,6 +6,50 @@ import { FeaturesGrid } from './FeaturesGrid';
 import { Button } from '../../components/ui';
 import { useI18n } from '../../i18n/i18n.context';
 import { useAuth } from '../auth/auth.context';
+
+interface HeroActionsProps {
+  user: { role?: string } | null;
+  t: ReturnType<typeof useI18n>['t'];
+}
+
+const LandingHeroActions: FC<HeroActionsProps> = ({ user, t }) => (
+  <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 w-full sm:w-auto">
+    {user ? (
+      <>
+        <Link to={user.role === 'admin' ? '/admin' : '/dashboard'} className="w-full sm:w-auto">
+          <Button size="lg" className="w-full sm:w-auto" rightIcon={<ArrowRight className="h-5 w-5" />}>
+            {user.role === 'admin' ? 'Administration Portal' : t.nav.dashboard}
+          </Button>
+        </Link>
+        <a href="/docs/" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
+          <Button variant="secondary" size="lg" className="w-full sm:w-auto">
+            <BookOpen className="h-5 w-5 me-2 text-primary" />
+            {t.nav.docs}
+          </Button>
+        </a>
+      </>
+    ) : (
+      <>
+        <Link to="/register" className="w-full sm:w-auto">
+          <Button size="lg" className="w-full sm:w-auto" rightIcon={<ArrowRight className="h-5 w-5" />}>
+            {t.hero.ctaPrimary}
+          </Button>
+        </Link>
+        <Link to="/login" className="w-full sm:w-auto">
+          <Button variant="secondary" size="lg" className="w-full sm:w-auto">
+            {t.nav.signIn}
+          </Button>
+        </Link>
+        <a href="/docs/" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
+          <Button variant="ghost" size="lg" className="w-full sm:w-auto">
+            <BookOpen className="h-5 w-5 me-2 text-primary" />
+            {t.nav.docs}
+          </Button>
+        </a>
+      </>
+    )}
+  </div>
+);
 
 export const LandingPage: FC = () => {
   const { user } = useAuth();
@@ -29,28 +73,7 @@ export const LandingPage: FC = () => {
         {t.hero.subtitle}
       </p>
 
-      <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 w-full sm:w-auto">
-        {user ? (
-          <Link to={user.role === 'admin' ? '/admin' : '/dashboard'} className="w-full sm:w-auto">
-            <Button size="lg" className="w-full sm:w-auto" rightIcon={<ArrowRight className="h-5 w-5" />}>
-              {user.role === 'admin' ? 'Administration Portal' : t.nav.dashboard}
-            </Button>
-          </Link>
-        ) : (
-          <>
-            <Link to="/register" className="w-full sm:w-auto">
-              <Button size="lg" className="w-full sm:w-auto" rightIcon={<ArrowRight className="h-5 w-5" />}>
-                {t.hero.ctaPrimary}
-              </Button>
-            </Link>
-            <Link to="/login" className="w-full sm:w-auto">
-              <Button variant="secondary" size="lg" className="w-full sm:w-auto">
-                {t.nav.signIn}
-              </Button>
-            </Link>
-          </>
-        )}
-      </div>
+      <LandingHeroActions user={user} t={t} />
 
       <FeaturesGrid />
     </div>

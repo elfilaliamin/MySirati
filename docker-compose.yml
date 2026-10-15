@@ -45,8 +45,8 @@ services:
 
   frontend:
     build:
-      context: ./frontend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: frontend/Dockerfile
     container_name: mysirati_frontend
     restart: unless-stopped
     # Port mapping enabled for direct access by IP and port (can be removed once the tunnel is used):

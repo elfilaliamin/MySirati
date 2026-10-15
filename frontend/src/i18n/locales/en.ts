@@ -13,6 +13,7 @@ export const en: TranslationDictionary = {
     settings: 'Settings',
     admin: 'Admin',
     privacy: 'Privacy Policy',
+    docs: 'Documentation',
     signOut: 'Sign out',
     signIn: 'Sign in',
     getStarted: 'Get Started Free',

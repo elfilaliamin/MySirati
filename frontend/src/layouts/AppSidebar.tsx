@@ -1,4 +1,4 @@
-import { LogOut, ShieldAlert, X } from 'lucide-react';
+import { BookOpen, ExternalLink, LogOut, ShieldAlert, X } from 'lucide-react';
 import type { FC } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 
@@ -127,6 +127,25 @@ const ADMIN_EXCLUDED_PATHS = new Set([
   '/share',
 ]);
 
+const SidebarDocLink: FC<{ label: string; onItemClick?: () => void }> = ({
+  label,
+  onItemClick,
+}) => (
+  <div className="pt-2 mt-2 border-t border-border/60">
+    <a
+      href="/docs/"
+      target="_blank"
+      rel="noopener noreferrer"
+      onClick={onItemClick}
+      className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-medium text-text-muted hover:text-text hover:bg-surface transition-all group"
+    >
+      <BookOpen className="h-4 w-4 shrink-0 text-primary group-hover:scale-110 transition-transform" />
+      <span className="truncate">{label}</span>
+      <ExternalLink className="h-3 w-3 ms-auto text-text-muted/60" />
+    </a>
+  </div>
+);
+
 export const AppSidebar: FC<{ onItemClick?: () => void; className?: string }> = ({
   onItemClick,
   className = '',
@@ -166,6 +185,8 @@ export const AppSidebar: FC<{ onItemClick?: () => void; className?: string }> = 
             <span className="truncate">{t.nav.admin}</span>
           </NavLink>
         )}
+
+        <SidebarDocLink label={t.nav.docs} onItemClick={onItemClick} />
       </div>
 
       <SidebarUserFooter onItemClick={onItemClick} />

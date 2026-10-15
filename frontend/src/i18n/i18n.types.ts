@@ -13,6 +13,7 @@ export interface TranslationDictionary {
     readonly settings: string;
     readonly admin: string;
     readonly privacy: string;
+    readonly docs: string;
     readonly signOut: string;
     readonly signIn: string;
     readonly getStarted: string;

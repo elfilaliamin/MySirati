@@ -1,0 +1,12 @@
+node_modules
+**/node_modules
+dist
+**/dist
+.vitepress/dist
+.vitepress/cache
+.git
+.env
+.env.*
+!.env.example
+npm-debug.log*
+backups/

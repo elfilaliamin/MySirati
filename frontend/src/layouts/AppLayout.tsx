@@ -6,6 +6,7 @@ import { AppHeader } from './AppHeader';
 import { AppSidebar } from './AppSidebar';
 import { SkipToContent } from '../components/common/SkipToContent';
 import { useAuth } from '../features/auth/auth.context';
+import { useI18n } from '../i18n/i18n.context';
 
 const MobileSidebarDrawer: FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
@@ -24,18 +25,31 @@ const MobileSidebarDrawer: FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
   );
 };
 
-const AppFooter: FC = () => (
-  <footer className="mt-auto border-t border-border bg-surface-raised py-6 text-center text-xs text-text-muted">
-    <div className="mx-auto flex max-w-7xl flex-col sm:flex-row items-center justify-between px-4 sm:px-6 gap-2">
-      <p>© {new Date().getFullYear()} MySirati. AI-ready career profile platform.</p>
-      <div className="flex items-center gap-4">
-        <Link to="/privacy" className="hover:text-text hover:underline">
-          Privacy Policy & Moderation Disclosure
-        </Link>
+const AppFooter: FC = () => {
+  const { t } = useI18n();
+
+  return (
+    <footer className="mt-auto border-t border-border bg-surface-raised py-6 text-center text-xs text-text-muted">
+      <div className="mx-auto flex max-w-7xl flex-col sm:flex-row items-center justify-between px-4 sm:px-6 gap-2">
+        <p>© {new Date().getFullYear()} MySirati. AI-ready career profile platform.</p>
+        <div className="flex items-center gap-4">
+          <a
+            href="/docs/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-text hover:underline"
+          >
+            {t.nav.docs}
+          </a>
+          <span className="text-border">•</span>
+          <Link to="/privacy" className="hover:text-text hover:underline">
+            Privacy Policy & Moderation Disclosure
+          </Link>
+        </div>
       </div>
-    </div>
-  </footer>
-);
+    </footer>
+  );
+};
 
 export const AppLayout: FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
