@@ -38,7 +38,7 @@ export default defineConfig({
       {
         text: 'Platform',
         items: [
-          { text: 'Launch Web App', link: '/', target: '_self' },
+          { text: 'Launch Web App', link: 'https://mysirati.elfilaiamin.online', target: '_self' },
           { text: 'GitHub Repository', link: 'https://github.com/elfilaliamin/MySirati' },
         ],
       },
