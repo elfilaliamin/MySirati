@@ -109,11 +109,6 @@ export default defineConfig({
       { icon: 'github', link: 'https://github.com/elfilaliamin/MySirati' },
     ],
 
-    editLink: {
-      pattern: 'https://github.com/elfilaliamin/MySirati/edit/main/docs/:path',
-      text: 'Edit this page on GitHub',
-    },
-
     footer: {
       message: 'Released under the MIT License.',
       copyright: 'Copyright © 2026 MySirati. AI-ready career profile platform.',
