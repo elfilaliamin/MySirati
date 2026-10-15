@@ -31,7 +31,10 @@ export function errorHandler(
       error: {
         code: 'VALIDATION_ERROR',
         message: error.errors.map((e) => e.message).join(', ') || 'Validation error',
-        details: error.flatten(),
+        details: error.errors.map((issue) => ({
+          field: issue.path.length > 0 ? issue.path.join('.') : undefined,
+          message: issue.message,
+        })),
       },
     };
     response.status(HTTP_STATUS.BAD_REQUEST).json(errorResponse);
