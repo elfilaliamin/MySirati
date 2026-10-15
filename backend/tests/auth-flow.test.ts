@@ -10,7 +10,7 @@ import {
   USER_SESSION_TTL_MS,
 } from '../src/utils/session.util.js';
 
-describe('Auth Flow: Registration & Login Validation', () => {
+describe('Auth Flow: Registration Validation', () => {
   it('validates correct registration payload', () => {
     const input = {
       fullName: 'John Doe',
@@ -35,7 +35,9 @@ describe('Auth Flow: Registration & Login Validation', () => {
       /at least 8 characters/
     );
   });
+});
 
+describe('Auth Flow: Login & Session Authentication', () => {
   it('validates correct login payload', () => {
     const input = { email: 'User@Example.com ', password: 'SecretPassword123' };
     const parsed = loginSchema.parse(input);
