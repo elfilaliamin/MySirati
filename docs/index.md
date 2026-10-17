@@ -5,9 +5,6 @@ hero:
   name: "MySirati"
   text: "AI-Ready Career Data Platform"
   tagline: "Store your career profile, cherry-pick sections, and generate cryptographically secure JSON Resume share links for AI assistants."
-  image:
-    src: /favicon.svg
-    alt: MySirati Logo
   actions:
     - theme: brand
       text: Get Started
