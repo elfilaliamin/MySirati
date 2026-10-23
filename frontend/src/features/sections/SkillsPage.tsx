@@ -10,7 +10,7 @@ import { useSkillFilters } from './skills/useSkillFilters';
 import { useSection } from './useSections';
 
 export const SkillsPage: FC = () => {
-  const { items, createItem, updateItem, deleteItem } =
+  const { items, isLoading, createItem, updateItem, deleteItem } =
     useSection<SkillItem>('skills');
   const [modalOpen, setModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<SkillItem | null>(null);
@@ -44,6 +44,7 @@ export const SkillsPage: FC = () => {
         onEdit={handleOpenEdit}
         onDelete={(id) => deleteItem(id)}
         onAdd={handleOpenAdd}
+        isLoading={isLoading}
       />
       <SkillModal
         isOpen={modalOpen}

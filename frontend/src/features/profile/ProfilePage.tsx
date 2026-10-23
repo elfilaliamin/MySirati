@@ -1,19 +1,39 @@
-import { Loader2, User } from 'lucide-react';
+import { User } from 'lucide-react';
 import type { FC } from 'react';
 
 import { ProfileForm } from './ProfileForm';
 import { useProfile } from './useProfile';
-import { Card, CardDescription, CardHeader, CardTitle } from '../../components/ui';
+import { Card, CardDescription, CardHeader, CardTitle, Skeleton } from '../../components/ui';
+
+const ProfileSkeleton: FC = () => (
+  <div className="max-w-4xl mx-auto space-y-6 animate-pulse">
+    <div className="flex items-center gap-3.5">
+      <Skeleton className="h-11 w-11 rounded-2xl" />
+      <div className="space-y-2">
+        <Skeleton className="h-6 w-48 rounded" />
+        <Skeleton className="h-3.5 w-80 rounded" />
+      </div>
+    </div>
+    <Card className="p-6 space-y-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <Skeleton className="h-10 w-full rounded-xl" />
+        <Skeleton className="h-10 w-full rounded-xl" />
+        <Skeleton className="h-10 w-full rounded-xl" />
+        <Skeleton className="h-10 w-full rounded-xl" />
+      </div>
+      <Skeleton className="h-24 w-full rounded-xl" />
+      <div className="flex justify-end pt-2">
+        <Skeleton className="h-10 w-32 rounded-xl" />
+      </div>
+    </Card>
+  </div>
+);
 
 export const ProfilePage: FC = () => {
   const { profile, isLoading, updateProfile, isUpdating } = useProfile();
 
   if (isLoading) {
-    return (
-      <div className="flex min-h-[50vh] items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-      </div>
-    );
+    return <ProfileSkeleton />;
   }
 
   if (!profile) return null;

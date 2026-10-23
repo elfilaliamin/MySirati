@@ -8,10 +8,10 @@ import { SectionHeader } from './components/SectionHeader';
 import type { ProjectItem } from './sections.types';
 import { swapAndReorder } from './useReorderHelper';
 import { useSection } from './useSections';
-import { EmptyState } from '../../components/ui';
+import { EmptyState, SkeletonList } from '../../components/ui';
 
 export const ProjectsPage: FC = () => {
-  const { items, createItem, updateItem, deleteItem, reorderItems } =
+  const { items, isLoading, createItem, updateItem, deleteItem, reorderItems } =
     useSection<ProjectItem>('projects');
   const [modalOpen, setModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<ProjectItem | null>(null);
@@ -32,7 +32,9 @@ export const ProjectsPage: FC = () => {
         actionLabel="Add Project"
         onAction={handleOpenAdd}
       />
-      {items.length === 0 ? (
+      {isLoading ? (
+        <SkeletonList count={3} />
+      ) : items.length === 0 ? (
         <EmptyState
           icon={<FolderGit2 className="h-6 w-6 text-primary" />}
           title="No projects yet"

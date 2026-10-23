@@ -8,10 +8,10 @@ import { SectionHeader } from './components/SectionHeader';
 import type { ExperienceItem } from './sections.types';
 import { swapAndReorder } from './useReorderHelper';
 import { useSection } from './useSections';
-import { EmptyState } from '../../components/ui';
+import { EmptyState, SkeletonList } from '../../components/ui';
 
 export const ExperiencesPage: FC = () => {
-  const { items, createItem, updateItem, deleteItem, reorderItems } =
+  const { items, isLoading, createItem, updateItem, deleteItem, reorderItems } =
     useSection<ExperienceItem>('experiences');
   const [modalOpen, setModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<ExperienceItem | null>(null);
@@ -32,7 +32,9 @@ export const ExperiencesPage: FC = () => {
         actionLabel="Add Experience"
         onAction={handleOpenAdd}
       />
-      {items.length === 0 ? (
+      {isLoading ? (
+        <SkeletonList count={3} />
+      ) : items.length === 0 ? (
         <EmptyState
           icon={<Briefcase className="h-6 w-6 text-primary" />}
           title="No work experiences yet"

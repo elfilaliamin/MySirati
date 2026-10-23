@@ -4,7 +4,7 @@ import type { FC } from 'react';
 import { SkillFiltersBar } from './SkillFiltersBar';
 import { SkillsGrid } from './SkillsGrid';
 import type { useSkillFilters } from './useSkillFilters';
-import { EmptyState } from '../../../components/ui';
+import { EmptyState, SkeletonList } from '../../../components/ui';
 import type { SkillItem } from '../sections.types';
 
 interface SkillsContentProps {
@@ -13,6 +13,7 @@ interface SkillsContentProps {
   onEdit: (item: SkillItem) => void;
   onDelete: (id: string) => void;
   onAdd: () => void;
+  isLoading?: boolean;
 }
 
 export const SkillsContent: FC<SkillsContentProps> = ({
@@ -21,7 +22,12 @@ export const SkillsContent: FC<SkillsContentProps> = ({
   onEdit,
   onDelete,
   onAdd,
+  isLoading = false,
 }) => {
+  if (isLoading) {
+    return <SkeletonList count={3} />;
+  }
+
   if (items.length === 0) {
     return (
       <EmptyState

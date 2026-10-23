@@ -1,18 +1,14 @@
-import { Loader2 } from 'lucide-react';
 import type { FC, ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
 
+import { PageLoader } from '../components/ui';
 import { useAuth } from '../features/auth/auth.context';
 
 export const ProtectedRoute: FC<{ children: ReactNode }> = ({ children }) => {
   const { user, isLoading } = useAuth();
 
   if (isLoading) {
-    return (
-      <div className="flex min-h-[60vh] items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-      </div>
-    );
+    return <PageLoader label="Loading career workspace..." />;
   }
 
   if (!user) {
@@ -26,11 +22,7 @@ export const PublicOnlyRoute: FC<{ children: ReactNode }> = ({ children }) => {
   const { user, isLoading } = useAuth();
 
   if (isLoading) {
-    return (
-      <div className="flex min-h-[60vh] items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-      </div>
-    );
+    return <PageLoader label="Verifying session..." />;
   }
 
   if (user) {
@@ -44,11 +36,7 @@ export const AdminRoute: FC<{ children: ReactNode }> = ({ children }) => {
   const { user, isLoading } = useAuth();
 
   if (isLoading) {
-    return (
-      <div className="flex min-h-[60vh] items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-      </div>
-    );
+    return <PageLoader label="Authenticating administrative session..." />;
   }
 
   if (!user || user.role !== 'admin') {

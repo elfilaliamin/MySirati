@@ -8,16 +8,33 @@ import { JsonPreview } from './components/JsonPreview';
 import { KeyRevealModal } from './components/KeyRevealModal';
 import { useBuilderState } from './useBuilderState';
 import { useShareLink, useShareLinks } from './useShareLinks';
-import { Button } from '../../components/ui';
+import { Button, PageLoader } from '../../components/ui';
+
+const ShareLinkBuilderHeader: FC<{ isEditing: boolean }> = ({ isEditing }) => (
+  <div className="flex items-center gap-3">
+    <Link to="/share">
+      <Button variant="ghost" size="sm" leftIcon={<ArrowLeft className="h-4 w-4" />}>
+        Back to Links
+      </Button>
+    </Link>
+    <h1 className="text-2xl font-bold tracking-tight text-text">
+      {isEditing ? 'Edit Share Link' : 'Create AI Share Link'}
+    </h1>
+  </div>
+);
 
 export const ShareLinkBuilderPage: FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { data: linkData } = useShareLink(id);
+  const { data: linkData, isLoading: isLinkLoading } = useShareLink(id);
   const { createLink, updateLink, isCreating, isUpdating } = useShareLinks();
   const state = useBuilderState(linkData?.link);
 
   const [revealedKey, setRevealedKey] = useState<string | null>(null);
+
+  if (id && isLinkLoading) {
+    return <PageLoader label="Loading share link details..." />;
+  }
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -38,14 +55,7 @@ export const ShareLinkBuilderPage: FC = () => {
 
   return (
     <div className="max-w-6xl mx-auto space-y-6">
-      <div className="flex items-center gap-3">
-        <Link to="/share">
-          <Button variant="ghost" size="sm" leftIcon={<ArrowLeft className="h-4 w-4" />}>Back to Links</Button>
-        </Link>
-        <h1 className="text-2xl font-bold tracking-tight text-text">
-          {id ? 'Edit Share Link' : 'Create AI Share Link'}
-        </h1>
-      </div>
+      <ShareLinkBuilderHeader isEditing={Boolean(id)} />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
         <BuilderForm state={state} onSubmit={handleSubmit} isLoading={isCreating || isUpdating} isEditing={Boolean(id)} />

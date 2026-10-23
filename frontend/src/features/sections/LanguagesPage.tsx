@@ -8,10 +8,10 @@ import { SectionHeader } from './components/SectionHeader';
 import type { LanguageItem } from './sections.types';
 import { swapAndReorder } from './useReorderHelper';
 import { useSection } from './useSections';
-import { EmptyState } from '../../components/ui';
+import { EmptyState, SkeletonList } from '../../components/ui';
 
 export const LanguagesPage: FC = () => {
-  const { items, createItem, updateItem, deleteItem, reorderItems } =
+  const { items, isLoading, createItem, updateItem, deleteItem, reorderItems } =
     useSection<LanguageItem>('languages');
   const [modalOpen, setModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<LanguageItem | null>(null);
@@ -32,7 +32,9 @@ export const LanguagesPage: FC = () => {
         actionLabel="Add Language"
         onAction={handleOpenAdd}
       />
-      {items.length === 0 ? (
+      {isLoading ? (
+        <SkeletonList count={2} />
+      ) : items.length === 0 ? (
         <EmptyState
           icon={<Languages className="h-6 w-6 text-primary" />}
           title="No languages added yet"

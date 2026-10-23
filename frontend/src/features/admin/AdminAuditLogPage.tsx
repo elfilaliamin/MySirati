@@ -1,4 +1,4 @@
-import { FileText, Loader2 } from 'lucide-react';
+import { FileText } from 'lucide-react';
 import type { FC } from 'react';
 import { useState } from 'react';
 
@@ -10,6 +10,23 @@ import { MetadataModal } from './components/MetadataModal';
 import { PaginationControls } from './components/PaginationControls';
 import { useAdminAuditLogs } from './useAdminAuditLogs';
 import { Card, EmptyState } from '../../components/ui';
+
+const AuditLogTableSkeleton: FC = () => (
+  <div className="space-y-2.5 p-2 animate-pulse">
+    <div className="h-10 bg-surface-muted/80 rounded-lg" />
+    {Array.from({ length: 6 }).map((_, i) => (
+      <div
+        key={i}
+        className="h-12 bg-surface-muted/50 rounded-lg flex items-center justify-between px-4"
+      >
+        <div className="h-4 w-44 bg-surface-muted/90 rounded" />
+        <div className="h-4 w-24 bg-surface-muted/90 rounded" />
+        <div className="h-4 w-32 bg-surface-muted/90 rounded" />
+        <div className="h-6 w-14 bg-surface-muted/90 rounded-full" />
+      </div>
+    ))}
+  </div>
+);
 
 export const AdminAuditLogPage: FC = () => {
   const [page, setPage] = useState(1);
@@ -28,11 +45,7 @@ export const AdminAuditLogPage: FC = () => {
       />
 
       <Card className="p-4 space-y-4">
-        {isLoading && (
-          <div className="flex h-48 items-center justify-center">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
-          </div>
-        )}
+        {isLoading && <AuditLogTableSkeleton />}
 
         {!isLoading && (!data?.items || data.items.length === 0) && (
           <EmptyState

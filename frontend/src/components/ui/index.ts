@@ -9,3 +9,5 @@ export * from './ThemeToggle';
 export * from './ToastContext';
 export * from './MySiratiLogo';
 export * from './ConfirmModal';
+export * from './PageLoader';
+export * from './Skeleton';

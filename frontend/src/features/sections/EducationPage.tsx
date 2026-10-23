@@ -11,7 +11,7 @@ import { swapAndReorder } from './useReorderHelper';
 import { useSection } from './useSections';
 
 export const EducationPage: FC = () => {
-  const { items, createItem, updateItem, deleteItem, reorderItems } =
+  const { items, isLoading, createItem, updateItem, deleteItem, reorderItems } =
     useSection<EducationItem>('education');
   const [modalOpen, setModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<EducationItem | null>(null);
@@ -54,6 +54,7 @@ export const EducationPage: FC = () => {
         onEdit={handleOpenEdit}
         onDelete={(id) => deleteItem(id)}
         onAdd={() => handleOpenAdd(initialAddType)}
+        isLoading={isLoading}
       />
 
       <EducationModal

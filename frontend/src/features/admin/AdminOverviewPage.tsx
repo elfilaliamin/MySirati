@@ -1,10 +1,11 @@
-import { Info, Loader2 } from 'lucide-react';
+import { Info } from 'lucide-react';
 import type { FC } from 'react';
 
 import { AdminNav } from './components/AdminNav';
 import { AdminOverviewStatsGrid } from './components/AdminOverviewStatsGrid';
 import { AdminQuickActions } from './components/AdminQuickActions';
 import { useAdminStats } from './useAdminStats';
+import { Skeleton, SkeletonStatsGrid } from '../../components/ui';
 
 export const AdminOverviewPage: FC = () => {
   const { data, isLoading, error } = useAdminStats();
@@ -14,8 +15,12 @@ export const AdminOverviewPage: FC = () => {
       <AdminNav />
 
       {isLoading && (
-        <div className="flex h-48 items-center justify-center">
-          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <div className="space-y-6 animate-pulse">
+          <SkeletonStatsGrid count={4} />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <Skeleton className="h-28 rounded-2xl" />
+            <Skeleton className="h-28 rounded-2xl" />
+          </div>
         </div>
       )}
 

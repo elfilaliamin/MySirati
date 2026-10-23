@@ -6,10 +6,10 @@ import { KeyRevealModal } from './components/KeyRevealModal';
 import { ShareLinkCard } from './components/ShareLinkCard';
 import { ShareLinksHeader } from './components/ShareLinksHeader';
 import { useShareLinks } from './useShareLinks';
-import { EmptyState } from '../../components/ui';
+import { EmptyState, SkeletonList } from '../../components/ui';
 
 export const ShareLinksPage: FC = () => {
-  const { links, regenerateKey, revokeLink, deleteLink } = useShareLinks();
+  const { links, isLoading, regenerateKey, revokeLink, deleteLink } = useShareLinks();
   const [revealedKey, setRevealedKey] = useState<string | null>(null);
 
   const handleRegenerate = async (id: string) => {
@@ -23,7 +23,9 @@ export const ShareLinksPage: FC = () => {
     <div className="max-w-5xl mx-auto space-y-6">
       <ShareLinksHeader />
 
-      {links.length === 0 ? (
+      {isLoading ? (
+        <SkeletonList count={3} />
+      ) : links.length === 0 ? (
         <EmptyState
           icon={<Link2 className="h-6 w-6 text-primary" />}
           title="No share links created yet"

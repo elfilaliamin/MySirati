@@ -1,4 +1,3 @@
-import { Loader2 } from 'lucide-react';
 import type { FC } from 'react';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -9,6 +8,38 @@ import { UserDetailModals } from './components/UserDetailModals';
 import { UserProfileCard } from './components/UserProfileCard';
 import { UserShareLinksCard } from './components/UserShareLinksCard';
 import { useAdminUserDetail, useAdminUserMutations } from './useAdminUserDetail';
+import { Card, Skeleton } from '../../components/ui';
+
+const AdminUserDetailSkeleton: FC = () => (
+  <div className="max-w-6xl mx-auto space-y-6 animate-pulse">
+    <div className="flex items-center justify-between">
+      <div className="space-y-2">
+        <Skeleton className="h-7 w-48 rounded" />
+        <Skeleton className="h-4 w-64 rounded" />
+      </div>
+      <div className="flex gap-2">
+        <Skeleton className="h-9 w-24 rounded-lg" />
+        <Skeleton className="h-9 w-24 rounded-lg" />
+      </div>
+    </div>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <Card className="p-6 space-y-4">
+        <Skeleton className="h-6 w-36 rounded" />
+        <div className="space-y-3">
+          <Skeleton className="h-4 w-full rounded" />
+          <Skeleton className="h-4 w-3/4 rounded" />
+        </div>
+      </Card>
+      <Card className="p-6 space-y-4">
+        <Skeleton className="h-6 w-36 rounded" />
+        <div className="space-y-3">
+          <Skeleton className="h-4 w-full rounded" />
+          <Skeleton className="h-4 w-3/4 rounded" />
+        </div>
+      </Card>
+    </div>
+  </div>
+);
 
 export const AdminUserDetailPage: FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -21,11 +52,7 @@ export const AdminUserDetailPage: FC = () => {
   const [deleteOpen, setDeleteOpen] = useState(false);
 
   if (isLoading) {
-    return (
-      <div className="flex h-64 items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-      </div>
-    );
+    return <AdminUserDetailSkeleton />;
   }
 
   if (error || !detail) {

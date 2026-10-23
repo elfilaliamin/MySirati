@@ -4,7 +4,7 @@ import type { FC } from 'react';
 import { EducationFiltersBar } from './EducationFiltersBar';
 import { EducationList } from './EducationList';
 import type { useEducationFilters } from './useEducationFilters';
-import { EmptyState } from '../../../components/ui';
+import { EmptyState, SkeletonList } from '../../../components/ui';
 import type { EducationItem } from '../sections.types';
 
 interface EducationContentProps {
@@ -15,7 +15,18 @@ interface EducationContentProps {
   onEdit: (item: EducationItem) => void;
   onDelete: (id: string) => void;
   onAdd: () => void;
+  isLoading?: boolean;
 }
+
+const EducationEmptyState: FC<{ onAdd: () => void }> = ({ onAdd }) => (
+  <EmptyState
+    icon={<BookOpen className="h-6 w-6 text-primary" />}
+    title="No education or courses added yet"
+    description="Add your university degrees, online courses (Udemy, Coursera), bootcamps, and certificates to build an AI-ready career profile."
+    actionLabel="Add Education"
+    onAction={onAdd}
+  />
+);
 
 export const EducationContent: FC<EducationContentProps> = ({
   items,
@@ -25,17 +36,14 @@ export const EducationContent: FC<EducationContentProps> = ({
   onEdit,
   onDelete,
   onAdd,
+  isLoading = false,
 }) => {
+  if (isLoading) {
+    return <SkeletonList count={3} />;
+  }
+
   if (items.length === 0) {
-    return (
-      <EmptyState
-        icon={<BookOpen className="h-6 w-6 text-primary" />}
-        title="No education or courses added yet"
-        description="Add your university degrees, online courses (Udemy, Coursera), bootcamps, and certificates to build an AI-ready career profile."
-        actionLabel="Add Education"
-        onAction={onAdd}
-      />
-    );
+    return <EducationEmptyState onAdd={onAdd} />;
   }
 
   return (
