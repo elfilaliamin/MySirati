@@ -79,55 +79,97 @@ const TYPE_CONFIG = {
   },
 } as const;
 
-export const EducationFields: FC<EducationFieldsProps> = ({
-  type,
-  setType,
-  institution,
-  setInstitution,
+const EducationTypeSelector: FC<{
+  type: EducationType;
+  setType: (type: EducationType) => void;
+}> = ({ type, setType }) => (
+  <div className="flex flex-col gap-1.5 text-start w-full">
+    <label className="text-xs font-semibold text-text">Education Category</label>
+    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+      {(Object.keys(TYPE_CONFIG) as EducationType[]).map((key) => {
+        const item = TYPE_CONFIG[key];
+        const Icon = item.icon;
+        const isSelected = type === key;
+
+        return (
+          <button
+            key={key}
+            type="button"
+            onClick={() => setType(key)}
+            className={`flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl border text-xs font-semibold transition-all ${
+              isSelected
+                ? 'border-primary bg-primary-soft text-primary shadow-sm shadow-primary/10 ring-1 ring-primary/30'
+                : 'border-border bg-surface-raised text-text-muted hover:border-text-muted/40 hover:text-text'
+            }`}
+          >
+            <Icon className={`h-4 w-4 shrink-0 ${isSelected ? 'text-primary' : 'text-text-muted'}`} />
+            <span>{item.shortLabel}</span>
+          </button>
+        );
+      })}
+    </div>
+  </div>
+);
+
+const EducationDegreeFields: FC<{
+  degree: string;
+  setDegree: (val: string) => void;
+  fieldOfStudy: string;
+  setFieldOfStudy: (val: string) => void;
+  degreeLabel: string;
+  degreePlaceholder: string;
+  fieldLabel: string;
+  fieldPlaceholder: string;
+}> = ({
   degree,
   setDegree,
   fieldOfStudy,
   setFieldOfStudy,
-  startDate,
-  setStartDate,
-  endDate,
-  setEndDate,
-  isCurrent,
-  setIsCurrent,
-  description,
-  setDescription,
-}) => {
+  degreeLabel,
+  degreePlaceholder,
+  fieldLabel,
+  fieldPlaceholder,
+}) => (
+  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+    <Input
+      label={degreeLabel}
+      placeholder={degreePlaceholder}
+      value={degree}
+      onChange={(e) => setDegree(e.target.value)}
+    />
+    <Input
+      label={fieldLabel}
+      placeholder={fieldPlaceholder}
+      value={fieldOfStudy}
+      onChange={(e) => setFieldOfStudy(e.target.value)}
+    />
+  </div>
+);
+
+const EducationDescriptionField: FC<{
+  description: string;
+  setDescription: (val: string) => void;
+  placeholder?: string;
+}> = ({ description, setDescription, placeholder }) => (
+  <div className="flex flex-col gap-1.5 text-start w-full">
+    <label className="text-xs font-semibold text-text">Description & Highlights</label>
+    <textarea
+      rows={3}
+      value={description}
+      onChange={(e) => setDescription(e.target.value)}
+      placeholder={placeholder}
+      className="w-full rounded-xl border border-border bg-surface-raised px-3.5 py-2.5 text-sm text-text placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+    />
+  </div>
+);
+
+export const EducationFields: FC<EducationFieldsProps> = (props) => {
+  const { type, setType, institution, setInstitution } = props;
   const currentConfig = TYPE_CONFIG[type] || TYPE_CONFIG.academic;
 
   return (
     <>
-      {/* Education Type Selector */}
-      <div className="flex flex-col gap-1.5 text-left w-full">
-        <label className="text-xs font-semibold text-text">Education Category</label>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-          {(Object.keys(TYPE_CONFIG) as EducationType[]).map((key) => {
-            const item = TYPE_CONFIG[key];
-            const Icon = item.icon;
-            const isSelected = type === key;
-
-            return (
-              <button
-                key={key}
-                type="button"
-                onClick={() => setType(key)}
-                className={`flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl border text-xs font-semibold transition-all ${
-                  isSelected
-                    ? 'border-primary bg-primary-soft text-primary shadow-sm shadow-primary/10 ring-1 ring-primary/30'
-                    : 'border-border bg-surface-raised text-text-muted hover:border-text-muted/40 hover:text-text'
-                }`}
-              >
-                <Icon className={`h-4 w-4 shrink-0 ${isSelected ? 'text-primary' : 'text-text-muted'}`} />
-                <span>{item.shortLabel}</span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
+      <EducationTypeSelector type={type} setType={setType} />
 
       <Input
         label={currentConfig.institutionLabel}
@@ -137,41 +179,32 @@ export const EducationFields: FC<EducationFieldsProps> = ({
         onChange={(e) => setInstitution(e.target.value)}
       />
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <Input
-          label={currentConfig.degreeLabel}
-          placeholder={currentConfig.degreePlaceholder}
-          value={degree}
-          onChange={(e) => setDegree(e.target.value)}
-        />
-        <Input
-          label={currentConfig.fieldLabel}
-          placeholder={currentConfig.fieldPlaceholder}
-          value={fieldOfStudy}
-          onChange={(e) => setFieldOfStudy(e.target.value)}
-        />
-      </div>
+      <EducationDegreeFields
+        degree={props.degree}
+        setDegree={props.setDegree}
+        fieldOfStudy={props.fieldOfStudy}
+        setFieldOfStudy={props.setFieldOfStudy}
+        degreeLabel={currentConfig.degreeLabel}
+        degreePlaceholder={currentConfig.degreePlaceholder}
+        fieldLabel={currentConfig.fieldLabel}
+        fieldPlaceholder={currentConfig.fieldPlaceholder}
+      />
 
       <DateRangeFields
-        startDate={startDate}
-        setStartDate={setStartDate}
-        endDate={endDate}
-        setEndDate={setEndDate}
-        isCurrent={isCurrent}
-        setIsCurrent={setIsCurrent}
+        startDate={props.startDate}
+        setStartDate={props.setStartDate}
+        endDate={props.endDate}
+        setEndDate={props.setEndDate}
+        isCurrent={props.isCurrent}
+        setIsCurrent={props.setIsCurrent}
         currentLabel={currentConfig.currentLabel}
       />
 
-      <div className="flex flex-col gap-1.5 text-left w-full">
-        <label className="text-xs font-semibold text-text">Description & Highlights</label>
-        <textarea
-          rows={3}
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          placeholder={currentConfig.descriptionPlaceholder}
-          className="w-full rounded-xl border border-border bg-surface-raised px-3.5 py-2.5 text-sm text-text placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
-        />
-      </div>
+      <EducationDescriptionField
+        description={props.description}
+        setDescription={props.setDescription}
+        placeholder={currentConfig.descriptionPlaceholder}
+      />
     </>
   );
 };

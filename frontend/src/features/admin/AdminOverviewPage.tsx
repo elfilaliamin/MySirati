@@ -20,7 +20,7 @@ export const AdminOverviewPage: FC = () => {
       )}
 
       {error && (
-        <div className="p-4 rounded-xl border border-rose-500/20 bg-rose-500/10 text-rose-600 dark:text-rose-400 text-xs">
+        <div className="p-4 rounded-xl border border-danger/20 bg-danger/10 text-danger text-xs font-medium">
           {(error as Error).message || 'Unable to connect to administration endpoint.'}
         </div>
       )}
@@ -29,11 +29,11 @@ export const AdminOverviewPage: FC = () => {
         <>
           <AdminOverviewStatsGrid stats={data.stats} />
           <AdminQuickActions />
-          <div className="rounded-xl border border-border bg-surface p-4 flex items-start gap-3">
+          <div className="rounded-2xl border border-border/80 bg-surface/70 p-4 sm:p-5 flex items-start gap-3.5 shadow-subtle card-specular">
             <Info className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-            <div className="space-y-1 text-xs text-text-muted">
-              <p className="font-semibold text-text">Security & Privacy Protocol (DEC-001)</p>
-              <p>
+            <div className="space-y-1.5 text-xs text-text-muted">
+              <p className="font-bold text-text tracking-tight">Security & Privacy Protocol (DEC-001)</p>
+              <p className="leading-relaxed">
                 Administrative routes return 404 to non-privileged users to conceal backend endpoints.
                 Every user detail inspection, account status change, and link revocation is logged with
                 client IP and admin credentials to the append-only audit trail.

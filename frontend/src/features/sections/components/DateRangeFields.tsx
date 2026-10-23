@@ -32,9 +32,9 @@ export const DateRangeFields: FC<DateRangeProps> = ({
           type="checkbox"
           checked={isCurrent}
           onChange={(e) => setIsCurrent(e.target.checked)}
-          className="rounded border-border text-primary focus:ring-primary"
+          className="rounded border-border text-primary focus:ring-primary accent-primary h-4 w-4 cursor-pointer"
         />
-        <span>{currentLabel}</span>
+        <span className="select-none">{currentLabel}</span>
       </label>
     )}
   </div>

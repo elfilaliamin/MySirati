@@ -20,13 +20,13 @@ export const ProfilePage: FC = () => {
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
-      <div className="flex items-center gap-3">
-        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary text-white shadow-sm">
+      <div className="flex items-center gap-3.5">
+        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary text-white shadow-sm shadow-primary/30">
           <User className="h-6 w-6" />
         </div>
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-text">Profile Basics</h1>
-          <p className="text-xs sm:text-sm text-text-muted">
+          <p className="text-xs sm:text-sm text-text-muted mt-0.5">
             Manage your personal details, contact information, and public links.
           </p>
         </div>

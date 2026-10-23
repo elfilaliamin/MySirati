@@ -15,9 +15,9 @@ export const SkillCard: FC<SkillCardProps> = ({
   onEdit,
   onDelete,
 }) => (
-  <Card className="p-4 flex items-center justify-between">
+  <Card className="p-4 flex items-center justify-between hover:border-primary/40 hover:-translate-y-0.5 hover:shadow-card-hover transition-all duration-200">
     <div>
-      <h4 className="text-sm font-semibold text-text">{item.name}</h4>
+      <h4 className="text-sm font-bold text-text tracking-tight">{item.name}</h4>
       <div className="flex items-center gap-2 mt-1">
         {item.category && <span className="text-xs text-text-muted">{item.category}</span>}
         {item.level && <Badge size="sm" variant="primary">{item.level}</Badge>}

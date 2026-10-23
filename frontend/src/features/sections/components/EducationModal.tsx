@@ -14,6 +14,62 @@ interface EducationModalProps {
   initialType?: EducationType;
 }
 
+const getModalTitle = (item?: EducationItem | null, type?: EducationType) => {
+  if (item) return 'Edit Education Item';
+  switch (type) {
+    case 'course':
+      return 'Add Online Course';
+    case 'bootcamp':
+      return 'Add Bootcamp';
+    case 'certificate':
+      return 'Add Certification';
+    default:
+      return 'Add Academic Degree';
+  }
+};
+
+const ModalFooter: FC<{
+  isSubmitting: boolean;
+  isEdit: boolean;
+  onCancel: () => void;
+}> = ({ isSubmitting, isEdit, onCancel }) => (
+  <div className="flex justify-end gap-3 pt-3 border-t border-border">
+    <Button type="button" variant="outline" onClick={onCancel}>
+      Cancel
+    </Button>
+    <Button type="submit" isLoading={isSubmitting}>
+      {isEdit ? 'Save Changes' : 'Add Item'}
+    </Button>
+  </div>
+);
+
+const EducationFormBody: FC<{
+  form: Partial<EducationItem>;
+  update: (k: keyof EducationItem, v: unknown) => void;
+}> = ({ form, update }) => (
+  <>
+    <EducationFields
+      type={form.type || 'academic'}
+      setType={(v) => update('type', v)}
+      institution={form.institution || ''}
+      setInstitution={(v) => update('institution', v)}
+      degree={form.degree || ''}
+      setDegree={(v) => update('degree', v)}
+      fieldOfStudy={form.fieldOfStudy || ''}
+      setFieldOfStudy={(v) => update('fieldOfStudy', v)}
+      startDate={form.startDate || ''}
+      setStartDate={(v) => update('startDate', v)}
+      endDate={form.endDate || ''}
+      setEndDate={(v) => update('endDate', v)}
+      isCurrent={Boolean(form.isCurrent)}
+      setIsCurrent={(v) => update('isCurrent', v)}
+      description={form.description || ''}
+      setDescription={(v) => update('description', v)}
+    />
+    <LinksEditor links={form.links || []} onChange={(v) => update('links', v)} />
+  </>
+);
+
 export const EducationModal: FC<EducationModalProps> = ({
   isOpen,
   onClose,
@@ -45,50 +101,11 @@ export const EducationModal: FC<EducationModalProps> = ({
     }
   };
 
-  const getModalTitle = () => {
-    if (item) return 'Edit Education Item';
-    switch (form.type) {
-      case 'course':
-        return 'Add Online Course';
-      case 'bootcamp':
-        return 'Add Bootcamp';
-      case 'certificate':
-        return 'Add Certification';
-      default:
-        return 'Add Academic Degree';
-    }
-  };
-
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title={getModalTitle()} maxWidth="lg">
+    <Modal isOpen={isOpen} onClose={onClose} title={getModalTitle(item, form.type)} maxWidth="lg">
       <form onSubmit={handleSubmit} className="space-y-4">
-        <EducationFields
-          type={form.type || 'academic'}
-          setType={(v) => update('type', v)}
-          institution={form.institution || ''}
-          setInstitution={(v) => update('institution', v)}
-          degree={form.degree || ''}
-          setDegree={(v) => update('degree', v)}
-          fieldOfStudy={form.fieldOfStudy || ''}
-          setFieldOfStudy={(v) => update('fieldOfStudy', v)}
-          startDate={form.startDate || ''}
-          setStartDate={(v) => update('startDate', v)}
-          endDate={form.endDate || ''}
-          setEndDate={(v) => update('endDate', v)}
-          isCurrent={Boolean(form.isCurrent)}
-          setIsCurrent={(v) => update('isCurrent', v)}
-          description={form.description || ''}
-          setDescription={(v) => update('description', v)}
-        />
-        <LinksEditor links={form.links || []} onChange={(v) => update('links', v)} />
-        <div className="flex justify-end gap-3 pt-3 border-t border-border">
-          <Button type="button" variant="outline" onClick={onClose}>
-            Cancel
-          </Button>
-          <Button type="submit" isLoading={isSubmitting}>
-            {item ? 'Save Changes' : 'Add Item'}
-          </Button>
-        </div>
+        <EducationFormBody form={form} update={update} />
+        <ModalFooter isSubmitting={isSubmitting} isEdit={Boolean(item)} onCancel={onClose} />
       </form>
     </Modal>
   );

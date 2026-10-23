@@ -90,12 +90,12 @@ const EducationHeader: FC<{
 const EducationDateRow: FC<{ dateStr: string | null; isCurrent: boolean }> = ({ dateStr, isCurrent }) => {
   if (!dateStr) return null;
   return (
-    <div className="flex items-center gap-1.5 text-xs text-text-muted">
-      <Calendar className="h-3.5 w-3.5 text-text-muted/80" />
-      <span>{dateStr}</span>
+    <div className="flex items-center gap-2 text-xs text-text-muted">
+      <Calendar className="h-3.5 w-3.5 text-text-muted/80 shrink-0" />
+      <span className="font-mono tabular-nums">{dateStr}</span>
       {isCurrent && (
-        <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-500 bg-emerald-500/10 px-1.5 py-0.5 rounded">
-          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+        <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-success bg-success/10 border border-success/20 px-2 py-0.5 rounded-full">
+          <span className="h-1.5 w-1.5 rounded-full bg-success animate-pulse" />
           Active
         </span>
       )}
@@ -119,7 +119,7 @@ export const EducationCard: FC<EducationCardProps> = ({
   const dateStr = formatDateRange(item);
 
   return (
-    <Card className="hover:border-primary/30 transition-all shadow-sm hover:shadow-md">
+    <Card className="hover:border-primary/40 hover:-translate-y-0.5 hover:shadow-card-hover transition-all duration-200">
       <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
         <div className="space-y-2 flex-1 min-w-0">
           <EducationHeader

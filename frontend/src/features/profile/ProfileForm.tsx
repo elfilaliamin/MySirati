@@ -42,14 +42,14 @@ export const ProfileForm: FC<ProfileFormProps> = ({ profile, onSave, isSaving })
         />
       </div>
 
-      <div className="flex flex-col gap-1.5 text-left w-full">
-        <label className="text-xs font-semibold text-text">Career Summary / Bio</label>
+      <div className="flex flex-col gap-1.5 text-start w-full min-w-0">
+        <label className="text-xs font-semibold text-text tracking-wide">Career Summary / Bio</label>
         <textarea
           rows={4}
           value={summary}
           onChange={(e) => setSummary(e.target.value)}
           placeholder="Summarize your professional background..."
-          className="w-full rounded-xl border border-border bg-surface-raised px-3.5 py-2.5 text-sm text-text placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+          className="w-full rounded-xl border border-border bg-surface-raised px-3.5 py-2.5 text-sm text-text placeholder:text-text-muted/70 shadow-subtle transition-all duration-150 focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10"
         />
       </div>
 

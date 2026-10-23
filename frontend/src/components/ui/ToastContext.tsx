@@ -23,8 +23,8 @@ const ICONS: Record<ToastType, typeof Info> = {
 };
 
 const BORDER_CLASSES: Record<ToastType, string> = {
-  success: 'border-emerald-500/30 text-emerald-600 dark:text-emerald-400',
-  error: 'border-rose-500/30 text-rose-600 dark:text-rose-400',
+  success: 'border-success/30 text-success',
+  error: 'border-danger/30 text-danger',
   info: 'border-primary/30 text-primary',
 };
 
@@ -37,10 +37,12 @@ const ToastCard: FC<{ toast: ToastItem; onDismiss: (id: string) => void }> = ({
   return (
     <div
       role="alert"
-      className={`pointer-events-auto flex items-center justify-between gap-3 rounded-xl border bg-surface-raised p-3.5 sm:p-4 shadow-lg text-sm text-text transition-all w-full max-w-sm ${BORDER_CLASSES[toast.type]}`}
+      className={`pointer-events-auto flex items-center justify-between gap-3 rounded-2xl border bg-surface-raised/95 backdrop-blur-md p-4 shadow-modal text-sm text-text transition-all duration-200 w-full max-w-sm card-specular ${BORDER_CLASSES[toast.type]}`}
     >
-      <div className="flex items-center gap-2.5 min-w-0">
-        <Icon className="h-5 w-5 shrink-0" />
+      <div className="flex items-center gap-3 min-w-0">
+        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-surface border border-border">
+          <Icon className="h-4 w-4 shrink-0" />
+        </div>
         <span className="text-text font-medium break-words text-xs sm:text-sm">
           {toast.message}
         </span>
@@ -48,7 +50,7 @@ const ToastCard: FC<{ toast: ToastItem; onDismiss: (id: string) => void }> = ({
       <button
         type="button"
         onClick={() => onDismiss(toast.id)}
-        className="text-text-muted hover:text-text p-1 rounded-lg shrink-0"
+        className="text-text-muted hover:text-text p-1.5 rounded-lg shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
         aria-label="Dismiss toast"
       >
         <X className="h-4 w-4" />
@@ -76,7 +78,7 @@ export const ToastProvider: FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <ToastContext.Provider value={{ showToast }}>
       {children}
-      <div className="fixed bottom-4 inset-x-4 sm:inset-x-auto sm:right-4 z-50 flex flex-col items-center sm:items-end gap-2 max-w-sm mx-auto sm:mx-0 w-auto pointer-events-none">
+      <div className="fixed bottom-4 inset-x-4 sm:inset-x-auto sm:end-4 z-50 flex flex-col items-center sm:items-end gap-2.5 max-w-sm mx-auto sm:mx-0 w-auto pointer-events-none">
         {toasts.map((toast) => (
           <ToastCard key={toast.id} toast={toast} onDismiss={removeToast} />
         ))}

@@ -13,11 +13,11 @@ interface HeroActionsProps {
 }
 
 const LandingHeroActions: FC<HeroActionsProps> = ({ user, t }) => (
-  <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 w-full sm:w-auto">
+  <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3.5 sm:gap-4 w-full sm:w-auto">
     {user ? (
       <>
         <Link to={user.role === 'admin' ? '/admin' : '/dashboard'} className="w-full sm:w-auto">
-          <Button size="lg" className="w-full sm:w-auto" rightIcon={<ArrowRight className="h-5 w-5" />}>
+          <Button size="lg" className="w-full sm:w-auto group" rightIcon={<ArrowRight className="h-5 w-5 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform" />}>
             {user.role === 'admin' ? 'Administration Portal' : t.nav.dashboard}
           </Button>
         </Link>
@@ -31,7 +31,7 @@ const LandingHeroActions: FC<HeroActionsProps> = ({ user, t }) => (
     ) : (
       <>
         <Link to="/register" className="w-full sm:w-auto">
-          <Button size="lg" className="w-full sm:w-auto" rightIcon={<ArrowRight className="h-5 w-5" />}>
+          <Button size="lg" className="w-full sm:w-auto group shadow-glow-primary" rightIcon={<ArrowRight className="h-5 w-5 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform" />}>
             {t.hero.ctaPrimary}
           </Button>
         </Link>
@@ -56,20 +56,27 @@ export const LandingPage: FC = () => {
   const { t } = useI18n();
 
   return (
-    <div className="flex flex-col items-center text-center py-12 sm:py-20">
-      <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary-soft px-3.5 py-1 text-xs font-semibold text-primary mb-6">
+    <div className="relative flex flex-col items-center text-center py-12 sm:py-20 md:py-24">
+      {/* Subtle Ambient Radial Glow */}
+      <div
+        className="pointer-events-none absolute -top-12 left-1/2 -translate-x-1/2 h-96 w-full max-w-4xl bg-primary/10 blur-3xl rounded-full -z-10"
+        aria-hidden="true"
+      />
+
+      <div className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary-soft/80 px-4 py-1.5 text-xs font-semibold text-primary mb-6 shadow-subtle select-none">
         <Sparkles className="h-3.5 w-3.5" />
         <span>{t.hero.badge}</span>
       </div>
 
-      <h1 className="max-w-4xl text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-text leading-tight sm:leading-tight">
-        {t.hero.titlePre}
-        <span className="text-primary underline decoration-primary/30">
+      <h1 className="max-w-4xl text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-text leading-[1.15] sm:leading-[1.12]">
+        {t.hero.titlePre}{' '}
+        <span className="text-primary underline decoration-primary/30 decoration-wavy underline-offset-4">
           {t.hero.titleHighlight}
-        </span>.
+        </span>
+        .
       </h1>
 
-      <p className="mt-4 sm:mt-6 max-w-2xl text-sm sm:text-lg text-text-muted">
+      <p className="mt-5 sm:mt-6 max-w-2xl text-sm sm:text-lg text-text-muted leading-relaxed">
         {t.hero.subtitle}
       </p>
 

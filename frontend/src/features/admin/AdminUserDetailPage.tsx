@@ -30,7 +30,7 @@ export const AdminUserDetailPage: FC = () => {
 
   if (error || !detail) {
     return (
-      <div className="p-4 rounded-xl border border-rose-500/20 bg-rose-500/10 text-rose-600 dark:text-rose-400 text-xs">
+      <div className="p-4 rounded-xl border border-danger/20 bg-danger/10 text-danger text-xs font-medium">
         {(error as Error)?.message || 'The requested user could not be found.'}
       </div>
     );

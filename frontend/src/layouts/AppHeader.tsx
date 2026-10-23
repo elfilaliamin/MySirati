@@ -14,7 +14,7 @@ export const AppHeader: FC<AppHeaderProps> = ({
   toggleMobileMenu,
   showSidebar = true,
 }) => (
-  <header className="sticky top-0 z-40 w-full border-b border-border bg-surface-raised">
+  <header className="sticky top-0 z-40 w-full border-b border-border/70 glass-header shadow-subtle">
     <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
       <HeaderBrand
         isMobileMenuOpen={isMobileMenuOpen}

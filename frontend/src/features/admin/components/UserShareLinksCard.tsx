@@ -24,31 +24,31 @@ export const UserShareLinksCard: FC<ShareLinksCardProps> = ({ shareLinks }) => (
         description="This user has not generated any AI share links."
       />
     ) : (
-      <div className="overflow-x-auto">
-        <table className="w-full text-left text-xs">
+      <div className="overflow-x-auto no-scrollbar">
+        <table className="w-full text-start text-xs">
           <thead>
             <tr className="border-b border-border text-text-muted font-semibold">
-              <th className="py-2 px-3">Name</th>
-              <th className="py-2 px-3">Prefix</th>
-              <th className="py-2 px-3">Status</th>
-              <th className="py-2 px-3">Created</th>
-              <th className="py-2 px-3">Last Used</th>
+              <th className="py-2.5 px-3">Name</th>
+              <th className="py-2.5 px-3">Prefix</th>
+              <th className="py-2.5 px-3">Status</th>
+              <th className="py-2.5 px-3">Created</th>
+              <th className="py-2.5 px-3">Last Used</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
             {shareLinks.map((link) => (
               <tr key={link.id} className="hover:bg-surface-muted/30">
-                <td className="py-2 px-3 font-medium text-text">{link.name}</td>
-                <td className="py-2 px-3 font-mono text-text-muted">{link.keyPrefix}...</td>
-                <td className="py-2 px-3">
+                <td className="py-2.5 px-3 font-semibold text-text">{link.name}</td>
+                <td className="py-2.5 px-3 font-mono text-text-muted">{link.keyPrefix}...</td>
+                <td className="py-2.5 px-3">
                   <Badge variant={link.revokedAt ? 'danger' : 'success'}>
                     {link.revokedAt ? 'Revoked' : 'Active'}
                   </Badge>
                 </td>
-                <td className="py-2 px-3 text-text-muted">
+                <td className="py-2.5 px-3 text-text-muted font-mono tabular-nums">
                   {new Date(link.createdAt).toLocaleDateString()}
                 </td>
-                <td className="py-2 px-3 text-text-muted">
+                <td className="py-2.5 px-3 text-text-muted font-mono tabular-nums">
                   {link.lastUsedAt ? new Date(link.lastUsedAt).toLocaleDateString() : 'Never'}
                 </td>
               </tr>

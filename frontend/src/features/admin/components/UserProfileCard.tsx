@@ -50,9 +50,9 @@ export const UserProfileCard: FC<ProfileCardProps> = ({ detail }) => {
         </p>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
           {countItems.map(({ label, value, icon: Icon }) => (
-            <div key={label} className="p-2.5 rounded-xl border border-border bg-surface-muted/50 text-center">
+            <div key={label} className="p-2.5 rounded-xl border border-border bg-surface-muted/50 text-center shadow-subtle">
               <Icon className="h-4 w-4 mx-auto text-primary mb-1" />
-              <p className="text-base font-bold text-text">{value}</p>
+              <p className="text-base font-bold text-text font-mono tabular-nums">{value}</p>
               <p className="text-[11px] text-text-muted">{label}</p>
             </div>
           ))}

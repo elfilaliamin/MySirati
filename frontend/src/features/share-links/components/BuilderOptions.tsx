@@ -32,30 +32,30 @@ export const BuilderOptions: FC<BuilderOptionsProps> = ({
 }) => (
   <div className="space-y-4 pt-2 border-t border-border">
     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-      <label className="flex items-center gap-2 text-xs font-medium text-text cursor-pointer">
+      <label className="flex items-center gap-2 text-xs font-semibold text-text cursor-pointer select-none">
         <input
           type="checkbox"
           checked={includeEmail}
           onChange={(e) => onToggleEmail(e.target.checked)}
-          className="rounded border-border text-primary focus:ring-primary"
+          className="rounded border-border text-primary focus:ring-primary accent-primary h-4 w-4 cursor-pointer"
         />
         <span>Include Email</span>
       </label>
-      <label className="flex items-center gap-2 text-xs font-medium text-text cursor-pointer">
+      <label className="flex items-center gap-2 text-xs font-semibold text-text cursor-pointer select-none">
         <input
           type="checkbox"
           checked={includePhone}
           onChange={(e) => onTogglePhone(e.target.checked)}
-          className="rounded border-border text-primary focus:ring-primary"
+          className="rounded border-border text-primary focus:ring-primary accent-primary h-4 w-4 cursor-pointer"
         />
         <span>Include Phone</span>
       </label>
-      <label className="flex items-center gap-2 text-xs font-medium text-text cursor-pointer">
+      <label className="flex items-center gap-2 text-xs font-semibold text-text cursor-pointer select-none">
         <input
           type="checkbox"
           checked={includeItemLinks}
           onChange={(e) => onToggleItemLinks(e.target.checked)}
-          className="rounded border-border text-primary focus:ring-primary"
+          className="rounded border-border text-primary focus:ring-primary accent-primary h-4 w-4 cursor-pointer"
         />
         <span>Include Resource Links</span>
       </label>

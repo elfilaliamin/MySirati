@@ -24,27 +24,27 @@ export const UserAuditTrailCard: FC<AuditTrailCardProps> = ({ recentAuditLogs })
         description="No administrative actions recorded for this user yet."
       />
     ) : (
-      <div className="overflow-x-auto">
-        <table className="w-full text-left text-xs">
+      <div className="overflow-x-auto no-scrollbar">
+        <table className="w-full text-start text-xs">
           <thead>
             <tr className="border-b border-border text-text-muted font-semibold">
-              <th className="py-2 px-3">Action</th>
-              <th className="py-2 px-3">Date</th>
-              <th className="py-2 px-3">Admin IP</th>
-              <th className="py-2 px-3">Details</th>
+              <th className="py-2.5 px-3">Action</th>
+              <th className="py-2.5 px-3">Date</th>
+              <th className="py-2.5 px-3">Admin IP</th>
+              <th className="py-2.5 px-3">Details</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
             {recentAuditLogs.map((log) => (
               <tr key={log.id} className="hover:bg-surface-muted/30">
-                <td className="py-2 px-3 font-medium">
+                <td className="py-2.5 px-3 font-medium">
                   <Badge variant="neutral">{log.action}</Badge>
                 </td>
-                <td className="py-2 px-3 text-text-muted">
+                <td className="py-2.5 px-3 text-text-muted font-mono tabular-nums">
                   {new Date(log.createdAt).toLocaleString()}
                 </td>
-                <td className="py-2 px-3 font-mono text-text-muted">{log.ip}</td>
-                <td className="py-2 px-3 font-mono text-text-muted text-[11px] truncate max-w-xs">
+                <td className="py-2.5 px-3 font-mono text-text-muted tabular-nums">{log.ip}</td>
+                <td className="py-2.5 px-3 font-mono text-text-muted text-[11px] truncate max-w-xs">
                   {JSON.stringify(log.metadata)}
                 </td>
               </tr>

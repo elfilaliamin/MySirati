@@ -30,12 +30,12 @@ const Controls: FC<ControlsProps> = ({
   onModeChange,
   onToggleExpand,
 }) => (
-  <div className="flex items-center gap-2 text-xs">
+  <div className="flex items-center gap-1.5 text-xs bg-surface-raised border border-border/80 rounded-lg p-0.5 shadow-subtle">
     <button
       type="button"
       onClick={() => onModeChange(false)}
-      className={`px-2 py-0.5 rounded-md transition-colors ${
-        !isCustom ? 'bg-primary-soft text-primary font-medium' : 'text-text-muted hover:text-text'
+      className={`px-2 py-0.5 rounded-md transition-all font-medium ${
+        !isCustom ? 'bg-primary-soft text-primary shadow-xs' : 'text-text-muted hover:text-text'
       }`}
     >
       All ({itemsCount})
@@ -44,8 +44,8 @@ const Controls: FC<ControlsProps> = ({
       <button
         type="button"
         onClick={() => onModeChange(true)}
-        className={`px-2 py-0.5 rounded-md transition-colors ${
-          isCustom ? 'bg-primary-soft text-primary font-medium' : 'text-text-muted hover:text-text'
+        className={`px-2 py-0.5 rounded-md transition-all font-medium ${
+          isCustom ? 'bg-primary-soft text-primary shadow-xs' : 'text-text-muted hover:text-text'
         }`}
       >
         Specific ({selectedCount}/{itemsCount})
@@ -54,7 +54,7 @@ const Controls: FC<ControlsProps> = ({
     <button
       type="button"
       onClick={onToggleExpand}
-      className="text-text-muted hover:text-text p-1 transition-colors"
+      className="text-text-muted hover:text-text p-1 rounded transition-colors"
       aria-label="Toggle items"
     >
       {isExpanded ? <ChevronUp className="h-3.5 w-3.5" /> : <ChevronDown className="h-3.5 w-3.5" />}
@@ -102,15 +102,15 @@ export const GranularSectionPicker: FC<GranularSectionPickerProps> = ({
   };
 
   return (
-    <div className="rounded-xl border border-border bg-surface p-3.5 space-y-2.5">
+    <div className="rounded-xl border border-border/80 bg-surface/70 p-3.5 space-y-2.5 shadow-subtle">
       <div className="flex items-center justify-between">
-        <label className="flex items-center gap-2.5 text-xs font-semibold text-text cursor-pointer">
+        <label className="flex items-center gap-2.5 text-xs font-semibold text-text cursor-pointer select-none">
           <input
             type="checkbox"
             checked={isEnabled}
             disabled={items.length === 0}
             onChange={(e) => onToggleEnabled(e.target.checked)}
-            className="rounded border-border text-primary focus:ring-primary"
+            className="rounded border-border text-primary focus:ring-primary accent-primary h-4 w-4 cursor-pointer"
           />
           <span>{label} ({items.length})</span>
         </label>

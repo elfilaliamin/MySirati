@@ -60,21 +60,21 @@ export const PrivacyPage: FC = () => (
         Back to Home
       </Button>
     </Link>
-    <Card className="space-y-6 p-6">
+    <Card className="space-y-6 p-6 sm:p-8 shadow-card card-specular">
       <CardHeader>
-        <div className="flex items-center gap-3">
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary text-white shadow-sm">
+        <div className="flex items-center gap-3.5">
+          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary text-white shadow-sm shadow-primary/30">
             <ShieldCheck className="h-6 w-6" />
           </div>
           <div>
-            <CardTitle className="text-xl">Privacy Policy & Moderation Disclosure</CardTitle>
-            <CardDescription className="text-xs">
+            <CardTitle className="text-xl sm:text-2xl font-bold tracking-tight">Privacy Policy & Moderation Disclosure</CardTitle>
+            <CardDescription className="text-xs sm:text-sm mt-0.5">
               How MySirati protects, governs, and safeguards your career credentials
             </CardDescription>
           </div>
         </div>
       </CardHeader>
-      <div className="space-y-3">
+      <div className="space-y-3.5">
         {POLICY_SECTIONS.map((section, idx) => (
           <PrivacySection key={section.title} index={idx + 1} {...section} />
         ))}

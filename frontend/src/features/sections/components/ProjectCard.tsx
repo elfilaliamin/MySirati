@@ -29,7 +29,7 @@ const ProjectHeader: FC<{ name: string; role?: string | null }> = ({ name, role 
         <span>Project</span>
       </Badge>
     </div>
-    <h3 className="text-base font-semibold text-text">{name}</h3>
+    <h3 className="text-base font-bold text-text tracking-tight">{name}</h3>
     {role && <p className="text-sm font-medium text-text-muted mt-0.5">{role}</p>}
   </div>
 );
@@ -46,14 +46,14 @@ export const ProjectCard: FC<ProjectCardProps> = ({
   const dateStr = formatDateRange(item);
 
   return (
-    <Card className="hover:border-primary/30 transition-all shadow-sm hover:shadow-md">
+    <Card className="hover:border-primary/40 hover:-translate-y-0.5 hover:shadow-card-hover transition-all duration-200">
       <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
         <div className="space-y-2 flex-1 min-w-0">
           <ProjectHeader name={item.name} role={item.role} />
           {dateStr && (
-            <div className="flex items-center gap-1.5 text-xs text-text-muted">
-              <Calendar className="h-3.5 w-3.5 text-text-muted/80" />
-              <span>{dateStr}</span>
+            <div className="flex items-center gap-2 text-xs text-text-muted">
+              <Calendar className="h-3.5 w-3.5 text-text-muted/80 shrink-0" />
+              <span className="font-mono tabular-nums">{dateStr}</span>
             </div>
           )}
           {item.description && (

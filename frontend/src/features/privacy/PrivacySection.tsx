@@ -13,18 +13,18 @@ export const PrivacySection: FC<PrivacySectionProps> = ({
   description,
   highlights,
 }) => (
-  <section className="space-y-2 p-4 rounded-xl border border-border bg-surface-muted/30">
-    <h3 className="font-semibold text-text text-sm flex items-center gap-2">
-      <span className="flex h-5 w-5 items-center justify-center rounded-md bg-primary-soft text-primary text-xs font-bold">
+  <section className="space-y-2.5 p-4 sm:p-5 rounded-xl border border-border/80 bg-surface/40 shadow-subtle hover:border-primary/30 transition-colors">
+    <h3 className="font-bold text-text text-sm sm:text-base flex items-center gap-2.5 tracking-tight">
+      <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-primary-soft text-primary text-xs font-bold shrink-0">
         {index}
       </span>
       <span>{title}</span>
     </h3>
-    <p className="text-xs text-text-muted leading-relaxed">{description}</p>
+    <p className="text-xs sm:text-sm text-text-muted leading-relaxed">{description}</p>
     {highlights && highlights.length > 0 && (
-      <ul className="list-disc list-inside text-xs text-text-muted space-y-1 pl-1">
+      <ul className="list-disc list-inside text-xs sm:text-sm text-text-muted space-y-1.5 ps-1">
         {highlights.map((point) => (
-          <li key={point}>{point}</li>
+          <li key={point} className="leading-relaxed">{point}</li>
         ))}
       </ul>
     )}

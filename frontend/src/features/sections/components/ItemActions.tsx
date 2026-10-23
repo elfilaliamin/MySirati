@@ -21,17 +21,55 @@ const MoveButtons: FC<{
   canMoveUp: boolean;
   canMoveDown: boolean;
 }> = ({ onMoveUp, onMoveDown, canMoveUp, canMoveDown }) => (
-  <>
+  <div className="inline-flex items-center rounded-lg border border-border bg-surface p-0.5 shadow-subtle">
     {onMoveUp && (
-      <Button variant="ghost" size="sm" disabled={!canMoveUp} onClick={onMoveUp} aria-label="Move up">
-        <ChevronUp className="h-4 w-4" />
-      </Button>
+      <button
+        type="button"
+        disabled={!canMoveUp}
+        onClick={onMoveUp}
+        aria-label="Move up"
+        className="p-1 rounded text-text-muted hover:text-text hover:bg-surface-raised disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+      >
+        <ChevronUp className="h-3.5 w-3.5" />
+      </button>
     )}
     {onMoveDown && (
-      <Button variant="ghost" size="sm" disabled={!canMoveDown} onClick={onMoveDown} aria-label="Move down">
-        <ChevronDown className="h-4 w-4" />
-      </Button>
+      <button
+        type="button"
+        disabled={!canMoveDown}
+        onClick={onMoveDown}
+        aria-label="Move down"
+        className="p-1 rounded text-text-muted hover:text-text hover:bg-surface-raised disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+      >
+        <ChevronDown className="h-3.5 w-3.5" />
+      </button>
     )}
+  </div>
+);
+
+const ActionButtons: FC<{
+  onEdit: () => void;
+  onDeleteRequest: () => void;
+}> = ({ onEdit, onDeleteRequest }) => (
+  <>
+    <Button
+      variant="ghost"
+      size="sm"
+      onClick={onEdit}
+      aria-label="Edit item"
+      className="hover:bg-primary-soft hover:text-primary text-text-muted"
+    >
+      <Edit2 className="h-4 w-4" />
+    </Button>
+    <Button
+      variant="ghost"
+      size="sm"
+      onClick={onDeleteRequest}
+      className="text-text-muted hover:text-danger hover:bg-danger/10"
+      aria-label="Delete item"
+    >
+      <Trash2 className="h-4 w-4" />
+    </Button>
   </>
 );
 
@@ -47,38 +85,27 @@ export const ItemActions: FC<ItemActionsProps> = ({
 }) => {
   const [confirmOpen, setConfirmOpen] = useState(false);
 
-  const handleConfirmDelete = () => {
-    setConfirmOpen(false);
-    onDelete();
-  };
-
   return (
     <>
-      <div className="flex items-center gap-1 shrink-0">
-        <MoveButtons
-          onMoveUp={onMoveUp}
-          onMoveDown={onMoveDown}
-          canMoveUp={canMoveUp}
-          canMoveDown={canMoveDown}
-        />
-        <Button variant="ghost" size="sm" onClick={onEdit} aria-label="Edit item">
-          <Edit2 className="h-4 w-4 text-primary" />
-        </Button>
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => setConfirmOpen(true)}
-          className="text-danger hover:bg-danger/10 hover:text-danger"
-          aria-label="Delete item"
-        >
-          <Trash2 className="h-4 w-4" />
-        </Button>
+      <div className="flex items-center gap-1.5 shrink-0">
+        {(onMoveUp || onMoveDown) && (
+          <MoveButtons
+            onMoveUp={onMoveUp}
+            onMoveDown={onMoveDown}
+            canMoveUp={canMoveUp}
+            canMoveDown={canMoveDown}
+          />
+        )}
+        <ActionButtons onEdit={onEdit} onDeleteRequest={() => setConfirmOpen(true)} />
       </div>
 
       <ConfirmModal
         isOpen={confirmOpen}
         onClose={() => setConfirmOpen(false)}
-        onConfirm={handleConfirmDelete}
+        onConfirm={() => {
+          setConfirmOpen(false);
+          onDelete();
+        }}
         title={deleteTitle}
         description={deleteDescription}
         confirmLabel="Delete"

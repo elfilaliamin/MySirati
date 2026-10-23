@@ -33,11 +33,17 @@ export const LoginPage: FC = () => {
   };
 
   return (
-    <div className="flex min-h-[80vh] items-center justify-center p-4">
-      <Card className="w-full max-w-md shadow-xl border border-border">
+    <div className="relative flex min-h-[80vh] items-center justify-center p-4">
+      {/* Subtle Ambient Radial Glow */}
+      <div
+        className="pointer-events-none absolute h-72 w-72 bg-primary/10 blur-3xl rounded-full -z-10"
+        aria-hidden="true"
+      />
+
+      <Card className="w-full max-w-md p-6 sm:p-8 shadow-modal border border-border/80 card-specular">
         <LoginHeader />
         {errorMsg && (
-          <div className="mb-4 rounded-xl bg-danger/10 border border-danger/20 p-3 text-xs text-danger">
+          <div className="mb-5 rounded-xl bg-danger/10 border border-danger/20 p-3.5 text-xs font-medium text-danger">
             {errorMsg}
           </div>
         )}

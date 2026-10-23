@@ -24,13 +24,13 @@ export const SettingsPage: FC = () => {
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
-      <div className="flex items-center gap-3">
-        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary text-white shadow-sm">
+      <div className="flex items-center gap-3.5">
+        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary text-white shadow-sm shadow-primary/30">
           <Settings className="h-6 w-6" />
         </div>
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-text">Account Settings</h1>
-          <p className="text-xs sm:text-sm text-text-muted">Appearance, data portability, and account management.</p>
+          <p className="text-xs sm:text-sm text-text-muted mt-0.5">Appearance, data portability, and account management.</p>
         </div>
       </div>
 
@@ -44,7 +44,7 @@ export const SettingsPage: FC = () => {
 
       <ExportDataCard />
 
-      <Card className="border-danger/30">
+      <Card className="border-danger/30 bg-danger/[0.02]">
         <CardHeader>
           <CardTitle className="text-danger">Danger Zone</CardTitle>
           <CardDescription>Permanently remove your account and all associated share links.</CardDescription>

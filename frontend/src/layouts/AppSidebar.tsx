@@ -67,10 +67,10 @@ const SidebarItem: FC<{ item: NavLinkItem; onItemClick?: () => void }> = ({
       to={item.to}
       onClick={onItemClick}
       className={({ isActive }) =>
-        `flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all ${
+        `flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all duration-150 ${
           isActive
-            ? 'bg-primary text-white font-semibold shadow-sm shadow-primary/20'
-            : 'text-text-muted hover:text-text hover:bg-surface'
+            ? 'bg-primary text-white font-semibold shadow-sm shadow-primary/25 card-specular'
+            : 'text-text-muted hover:text-text hover:bg-surface active:scale-[0.98]'
         }`
       }
     >
@@ -92,10 +92,10 @@ const SidebarUserFooter: FC<{ onItemClick?: () => void }> = ({ onItemClick }) =>
 
   return (
     <div className="pt-3 mt-auto border-t border-border flex flex-col gap-2">
-      <div className="flex items-center gap-3 p-2 rounded-2xl bg-surface border border-border">
+      <div className="flex items-center gap-3 p-2.5 rounded-2xl bg-surface border border-border shadow-subtle card-specular">
         <div className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary font-bold text-xs border border-primary/20">
           <span>{initials}</span>
-          <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-emerald-500 border-2 border-surface-raised" />
+          <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-success border-2 border-surface-raised" />
         </div>
         <div className="flex flex-col min-w-0 flex-1">
           <span className="text-xs font-semibold text-text truncate">{displayName}</span>
@@ -109,7 +109,7 @@ const SidebarUserFooter: FC<{ onItemClick?: () => void }> = ({ onItemClick }) =>
           onItemClick?.();
           void logout();
         }}
-        className="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-danger/80 hover:text-danger hover:bg-danger/10 rounded-xl transition-colors"
+        className="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-danger/80 hover:text-danger hover:bg-danger/10 active:scale-95 rounded-xl transition-all"
       >
         <LogOut className="h-4 w-4" />
         <span>{t.nav.signOut}</span>

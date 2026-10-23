@@ -27,7 +27,7 @@ const IconThemeToggle: FC<{ className?: string }> = ({ className = '' }) => {
     <button
       type="button"
       onClick={() => setTheme(isDark ? 'light' : 'dark')}
-      className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-border bg-surface text-text-muted hover:bg-surface-raised hover:text-text transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${className}`}
+      className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-border bg-surface text-text-muted hover:bg-surface-raised hover:text-text hover:border-primary/40 active:scale-95 transition-all shadow-subtle focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${className}`}
       aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
       title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
     >
@@ -50,7 +50,7 @@ export const ThemeToggle: FC<ThemeToggleProps> = ({
     <div
       role="group"
       aria-label="Theme selector"
-      className={`inline-flex items-center rounded-lg border border-border bg-surface p-1 ${className}`}
+      className={`inline-flex items-center rounded-xl border border-border/80 bg-surface p-1 shadow-subtle ${className}`}
     >
       {THEME_OPTIONS.map(({ mode, label, icon: Icon }) => {
         const isActive = theme === mode;
@@ -62,10 +62,10 @@ export const ThemeToggle: FC<ThemeToggleProps> = ({
             title={label}
             aria-label={label}
             aria-pressed={isActive}
-            className={`flex h-7 w-7 items-center justify-center rounded-md transition-colors ${
+            className={`flex h-8 w-8 items-center justify-center rounded-lg transition-all duration-150 ${
               isActive
-                ? 'bg-surface-raised text-primary shadow-sm font-semibold'
-                : 'text-text-muted hover:text-text'
+                ? 'bg-surface-raised text-primary shadow-sm font-semibold scale-100 card-specular'
+                : 'text-text-muted hover:text-text hover:bg-surface-raised/40'
             }`}
           >
             <Icon className="h-4 w-4" />

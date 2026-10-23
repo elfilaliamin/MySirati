@@ -27,16 +27,19 @@ const FEATURES = [
 ];
 
 export const FeaturesGrid: FC = () => (
-  <div className="mt-12 sm:mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 w-full text-left">
+  <div className="mt-14 sm:mt-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 w-full text-start">
     {FEATURES.map((feat) => {
       const Icon = feat.icon;
       return (
-        <Card key={feat.title} className="hover:border-primary/40 transition-colors">
+        <Card
+          key={feat.title}
+          className="group hover:border-primary/40 hover:-translate-y-1 hover:shadow-card-hover transition-all duration-200"
+        >
           <CardHeader>
-            <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-primary-soft text-primary">
-              <Icon className="h-5 w-5" />
+            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary-soft text-primary group-hover:scale-105 group-hover:shadow-glow-primary transition-all duration-200">
+              <Icon className="h-6 w-6" />
             </div>
-            <CardTitle className="text-base">{feat.title}</CardTitle>
+            <CardTitle className="text-base font-bold">{feat.title}</CardTitle>
             <CardDescription>{feat.desc}</CardDescription>
           </CardHeader>
         </Card>
