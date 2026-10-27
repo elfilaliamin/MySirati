@@ -27,7 +27,11 @@ export const ProjectModal: FC<ProjectModalProps> = ({ isOpen, onClose, onSave, i
     e.preventDefault();
     try {
       setIsSubmitting(true);
-      await onSave(form);
+      await onSave({
+        ...form,
+        startDate: form.startDate || null,
+        endDate: form.endDate || null,
+      });
       onClose();
     } finally {
       setIsSubmitting(false);

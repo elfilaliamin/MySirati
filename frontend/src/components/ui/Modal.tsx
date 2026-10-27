@@ -1,6 +1,7 @@
 import { X } from 'lucide-react';
 import { useEffect } from 'react';
 import type { FC, ReactNode } from 'react';
+import { createPortal } from 'react-dom';
 
 interface ModalProps {
   isOpen: boolean;
@@ -65,7 +66,7 @@ export const Modal: FC<ModalProps> = ({
 
   if (!isOpen) return null;
 
-  return (
+  const modalContent = (
     <div
       role="dialog"
       aria-modal="true"
@@ -84,4 +85,6 @@ export const Modal: FC<ModalProps> = ({
       </div>
     </div>
   );
+
+  return typeof document !== 'undefined' ? createPortal(modalContent, document.body) : null;
 };

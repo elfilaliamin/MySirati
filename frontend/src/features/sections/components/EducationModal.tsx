@@ -93,6 +93,7 @@ export const EducationModal: FC<EducationModalProps> = ({
       await onSave({
         ...form,
         type: form.type || 'academic',
+        startDate: form.startDate || null,
         endDate: form.isCurrent ? null : form.endDate || null,
       });
       onClose();

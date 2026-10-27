@@ -27,7 +27,11 @@ export const ExperienceModal: FC<ExperienceModalProps> = ({ isOpen, onClose, onS
     e.preventDefault();
     try {
       setIsSubmitting(true);
-      await onSave({ ...form, endDate: form.isCurrent ? null : form.endDate || null });
+      await onSave({
+        ...form,
+        startDate: form.startDate || null,
+        endDate: form.isCurrent ? null : form.endDate || null,
+      });
       onClose();
     } finally {
       setIsSubmitting(false);

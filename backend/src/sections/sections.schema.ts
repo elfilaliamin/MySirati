@@ -17,13 +17,23 @@ export const sectionParamSchema = z.enum(SECTION_NAMES);
 export const EDUCATION_TYPES = ['academic', 'course', 'bootcamp', 'certificate'] as const;
 export type EducationType = (typeof EDUCATION_TYPES)[number];
 
+const optionalDateSchema = z.preprocess((val) => {
+  if (val === '' || val === undefined || val === null) return null;
+  if (typeof val === 'string') {
+    const trimmed = val.trim();
+    if (!trimmed) return null;
+    return trimmed;
+  }
+  return val;
+}, z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Date format must be YYYY-MM-DD').nullable().optional());
+
 export const educationInputSchema = z.object({
   type: z.enum(EDUCATION_TYPES).default('academic'),
   institution: z.string().trim().min(1, 'Institution / Platform is required').max(200),
   degree: z.string().trim().max(150).nullable().optional(),
   fieldOfStudy: z.string().trim().max(150).nullable().optional(),
-  startDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Date format must be YYYY-MM-DD').nullable().optional(),
-  endDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Date format must be YYYY-MM-DD').nullable().optional(),
+  startDate: optionalDateSchema,
+  endDate: optionalDateSchema,
   isCurrent: z.boolean().default(false),
   description: z.string().trim().max(5000).nullable().optional(),
   links: z.array(resourceLinkSchema).max(20).default([]),
@@ -33,8 +43,8 @@ export const experienceInputSchema = z.object({
   company: z.string().trim().min(1, 'Company is required').max(200),
   title: z.string().trim().min(1, 'Title is required').max(150),
   location: z.string().trim().max(150).nullable().optional(),
-  startDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Date format must be YYYY-MM-DD').nullable().optional(),
-  endDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Date format must be YYYY-MM-DD').nullable().optional(),
+  startDate: optionalDateSchema,
+  endDate: optionalDateSchema,
   isCurrent: z.boolean().default(false),
   description: z.string().trim().max(5000).nullable().optional(),
   links: z.array(resourceLinkSchema).max(20).default([]),
@@ -44,8 +54,8 @@ export const projectInputSchema = z.object({
   name: z.string().trim().min(1, 'Project name is required').max(200),
   role: z.string().trim().max(150).nullable().optional(),
   description: z.string().trim().max(5000).nullable().optional(),
-  startDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Date format must be YYYY-MM-DD').nullable().optional(),
-  endDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Date format must be YYYY-MM-DD').nullable().optional(),
+  startDate: optionalDateSchema,
+  endDate: optionalDateSchema,
   links: z.array(resourceLinkSchema).max(20).default([]),
 });
 
