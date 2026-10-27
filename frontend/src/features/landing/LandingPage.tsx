@@ -70,7 +70,7 @@ export const LandingPage: FC = () => {
 
       <h1 className="max-w-4xl text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-text leading-[1.15] sm:leading-[1.12]">
         {t.hero.titlePre}{' '}
-        <span className="text-primary underline decoration-primary/30 decoration-wavy underline-offset-4">
+        <span className="text-primary">
           {t.hero.titleHighlight}
         </span>
         .
